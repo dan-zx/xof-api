@@ -1,0 +1,9 @@
+ext {
+    javaxInjectVersion = '1'
+    jsr305Version = '3.0.2'
+}
+
+dependencies {
+    api "com.google.code.findbugs:jsr305:$jsr305Version"
+    api "javax.inject:javax.inject:$javaxInjectVersion"
+}
