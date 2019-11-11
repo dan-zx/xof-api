@@ -1,6 +1,6 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter.mapper
 
-import com.github.danzx.xof.core.repository.post.PaginatedPostsLoader
+import com.github.danzx.xof.core.dataprovider.post.PaginatedPostsLoader
 import com.github.danzx.xof.dataprovider.jpa.entity.PostJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.repository.specification.PostJpaSpecifications
 

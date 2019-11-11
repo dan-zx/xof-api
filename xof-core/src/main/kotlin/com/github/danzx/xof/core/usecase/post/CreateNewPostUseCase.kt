@@ -7,7 +7,7 @@ import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.post.command.CreateNewPostCommand
 import com.github.danzx.xof.core.usecase.post.mapper.toNewPost
 import com.github.danzx.xof.core.usecase.user.ValidateUserIdExistsUseCase
-import com.github.danzx.xof.core.repository.post.PostPersister
+import com.github.danzx.xof.core.dataprovider.post.PostPersister
 
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter.mapper
 
-import com.github.danzx.xof.core.repository.comment.PaginatedCommentsLoader
+import com.github.danzx.xof.core.dataprovider.comment.PaginatedCommentsLoader
 import com.github.danzx.xof.dataprovider.jpa.entity.CommentJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.repository.specification.CommentJpaSpecifications
 

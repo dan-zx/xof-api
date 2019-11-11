@@ -1,4 +1,4 @@
-package com.github.danzx.xof.core.repository
+package com.github.danzx.xof.core.dataprovider
 
 import com.github.danzx.xof.common.Page
 import com.github.danzx.xof.common.Pagination

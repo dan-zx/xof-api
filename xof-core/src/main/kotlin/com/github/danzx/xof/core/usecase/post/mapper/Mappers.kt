@@ -5,7 +5,7 @@ import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.domain.SimpleUser
 import com.github.danzx.xof.core.usecase.post.command.CreateNewPostCommand
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
-import com.github.danzx.xof.core.repository.post.PaginatedPostsLoader
+import com.github.danzx.xof.core.dataprovider.post.PaginatedPostsLoader
 
 import java.time.LocalDateTime.now
 

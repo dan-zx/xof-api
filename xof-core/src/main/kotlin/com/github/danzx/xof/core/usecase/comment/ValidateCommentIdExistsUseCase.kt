@@ -2,7 +2,7 @@ package com.github.danzx.xof.core.usecase.comment
 
 import com.github.danzx.xof.core.annotation.UseCaseComponent
 import com.github.danzx.xof.core.exception.CommentNotFoundException
-import com.github.danzx.xof.core.repository.comment.CommentIdChecker
+import com.github.danzx.xof.core.dataprovider.comment.CommentIdChecker
 import com.github.danzx.xof.core.usecase.UseCase
 
 import javax.inject.Inject

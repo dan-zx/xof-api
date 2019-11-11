@@ -1,4 +1,4 @@
-package com.github.danzx.xof.core.repository.post
+package com.github.danzx.xof.core.dataprovider.post
 
 import com.github.danzx.xof.core.domain.Vote
 

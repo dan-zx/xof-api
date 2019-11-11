@@ -2,7 +2,7 @@ package com.github.danzx.xof.core.usecase.comment
 
 import com.github.danzx.xof.core.annotation.UseCaseComponent
 import com.github.danzx.xof.core.domain.Vote
-import com.github.danzx.xof.core.repository.comment.CommentVotePersister
+import com.github.danzx.xof.core.dataprovider.comment.CommentVotePersister
 import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.user.ValidateUserIdExistsUseCase
 

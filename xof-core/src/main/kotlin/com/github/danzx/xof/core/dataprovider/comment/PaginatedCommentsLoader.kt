@@ -1,7 +1,7 @@
-package com.github.danzx.xof.core.repository.comment
+package com.github.danzx.xof.core.dataprovider.comment
 
 import com.github.danzx.xof.core.domain.Comment
-import com.github.danzx.xof.core.repository.PaginatedDataLoader
+import com.github.danzx.xof.core.dataprovider.PaginatedDataLoader
 
 interface PaginatedCommentsLoader : PaginatedDataLoader<PaginatedCommentsLoader.Filter, Comment> {
 

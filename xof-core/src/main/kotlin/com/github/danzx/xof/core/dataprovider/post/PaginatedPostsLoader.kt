@@ -1,7 +1,7 @@
-package com.github.danzx.xof.core.repository.post
+package com.github.danzx.xof.core.dataprovider.post
 
 import com.github.danzx.xof.core.domain.Post
-import com.github.danzx.xof.core.repository.PaginatedDataLoader
+import com.github.danzx.xof.core.dataprovider.PaginatedDataLoader
 
 interface PaginatedPostsLoader : PaginatedDataLoader<PaginatedPostsLoader.Filter, Post> {
 

@@ -6,7 +6,7 @@ import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
 import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.post.mapper.toLoaderFilter
-import com.github.danzx.xof.core.repository.post.PaginatedPostsLoader
+import com.github.danzx.xof.core.dataprovider.post.PaginatedPostsLoader
 
 import javax.inject.Inject
 

@@ -1,13 +1,13 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter
 
 import com.github.danzx.xof.core.domain.User
-import com.github.danzx.xof.core.repository.user.UserByIdLoader
-import com.github.danzx.xof.core.repository.user.UserByIdRemover
-import com.github.danzx.xof.core.repository.user.UserByUsernameLoader
-import com.github.danzx.xof.core.repository.user.UserIdChecker
-import com.github.danzx.xof.core.repository.user.UserPersister
-import com.github.danzx.xof.core.repository.user.UserUpdater
-import com.github.danzx.xof.core.repository.user.UserUsernameChecker
+import com.github.danzx.xof.core.dataprovider.user.UserByIdLoader
+import com.github.danzx.xof.core.dataprovider.user.UserByIdRemover
+import com.github.danzx.xof.core.dataprovider.user.UserByUsernameLoader
+import com.github.danzx.xof.core.dataprovider.user.UserIdChecker
+import com.github.danzx.xof.core.dataprovider.user.UserPersister
+import com.github.danzx.xof.core.dataprovider.user.UserUpdater
+import com.github.danzx.xof.core.dataprovider.user.UserUsernameChecker
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toUser
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toUserJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.repository.UserJpaRepository
