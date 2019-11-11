@@ -1,0 +1,10 @@
+ext {
+    hibernateVersion = '5.3.13.Final'
+    springDataJpaVersion = '2.1.12.RELEASE'
+}
+
+dependencies {
+    api project(':xof-core')
+    compileOnly "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
+    compileOnly "org.hibernate:hibernate-core:$hibernateVersion"
+}
