@@ -1,7 +1,7 @@
 package com.github.danzx.xof.core.usecase.comment.command
 
-import com.github.danzx.xof.core.util.Pagination
-import com.github.danzx.xof.core.util.SortSpec
+import com.github.danzx.xof.common.Pagination
+import com.github.danzx.xof.common.SortSpec
 
 data class CommentsLoaderCommand(
     val filter: Filter = Filter(),

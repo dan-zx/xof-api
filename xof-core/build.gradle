@@ -4,6 +4,7 @@ ext {
 }
 
 dependencies {
+    api project(':xof-common')
     api "com.google.code.findbugs:jsr305:$jsr305Version"
     api "javax.inject:javax.inject:$javaxInjectVersion"
 }
