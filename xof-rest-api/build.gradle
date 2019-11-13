@@ -1,0 +1,13 @@
+dependencies {
+    api project(':xof-core')
+    api "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+    api "io.springfox:springfox-swagger2:$springfoxSwaggerVersion"
+    api "io.springfox:springfox-bean-validators:$springfoxSwaggerVersion"
+    api "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
+
+    compileOnly "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+    compileOnly "org.springframework:spring-core:$springFrameworkVersion"
+    compileOnly "org.springframework:spring-tx:$springFrameworkVersion"
+    compileOnly "org.springframework:spring-web:$springFrameworkVersion"
+    compileOnly "org.springframework:spring-webmvc:$springFrameworkVersion"
+}
