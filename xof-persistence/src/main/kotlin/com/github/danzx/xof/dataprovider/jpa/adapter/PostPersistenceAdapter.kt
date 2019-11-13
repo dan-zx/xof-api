@@ -1,15 +1,15 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter
 
-import com.github.danzx.xof.common.Pagination
-import com.github.danzx.xof.common.SortSpec
-import com.github.danzx.xof.core.domain.Post
+import com.github.danzx.xof.common.pagination.Pagination
+import com.github.danzx.xof.common.sort.SortSpec
 import com.github.danzx.xof.core.dataprovider.post.PaginatedPostsLoader
 import com.github.danzx.xof.core.dataprovider.post.PostByIdLoader
 import com.github.danzx.xof.core.dataprovider.post.PostByIdRemover
 import com.github.danzx.xof.core.dataprovider.post.PostIdChecker
 import com.github.danzx.xof.core.dataprovider.post.PostPersister
 import com.github.danzx.xof.core.dataprovider.post.PostUpdater
-import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.DomainPage
+import com.github.danzx.xof.core.domain.Post
+import com.github.danzx.xof.core.filter.PostsFilter
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toDomainPage
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toPost
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toPostJpaEntity
@@ -28,14 +28,9 @@ import org.springframework.stereotype.Repository
 @Repository
 class PostPersistenceAdapter : PostPersister, PaginatedPostsLoader, PostByIdLoader, PostIdChecker, PostUpdater, PostByIdRemover {
 
-    @Autowired
-    lateinit var postJpaRepository: PostJpaRepository
-
-    @Autowired
-    lateinit var postVoteJpaRepository: PostVoteJpaRepository
-
-    @Autowired
-    lateinit var userJpaRepository: UserJpaRepository
+    @Autowired lateinit var postJpaRepository: PostJpaRepository
+    @Autowired lateinit var postVoteJpaRepository: PostVoteJpaRepository
+    @Autowired lateinit var userJpaRepository: UserJpaRepository
 
     override fun save(post: Post): Post {
         var postJpaEntity = post.toPostJpaEntity()
@@ -44,11 +39,7 @@ class PostPersistenceAdapter : PostPersister, PaginatedPostsLoader, PostByIdLoad
         return post
     }
 
-    override fun loadPaginated(
-        filter: PaginatedPostsLoader.Filter,
-        pagination: Pagination,
-        sorting: List<SortSpec>
-    ): DomainPage<Post> =
+    override fun loadPaginated(filter: PostsFilter, pagination: Pagination, sorting: List<SortSpec>) =
         postJpaRepository.findAll(filter.toSpecification(), pagination with sorting).map { it.toPost() }.toDomainPage()
 
     override fun loadById(id: Long) = postJpaRepository.findByIdOrNull(id)?.toPost()

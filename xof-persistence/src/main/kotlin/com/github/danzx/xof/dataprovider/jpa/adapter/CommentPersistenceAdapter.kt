@@ -1,15 +1,15 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter
 
-import com.github.danzx.xof.common.Pagination
-import com.github.danzx.xof.common.SortSpec
-import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.common.pagination.Pagination
+import com.github.danzx.xof.common.sort.SortSpec
 import com.github.danzx.xof.core.dataprovider.comment.CommentByIdLoader
 import com.github.danzx.xof.core.dataprovider.comment.CommentByIdRemover
 import com.github.danzx.xof.core.dataprovider.comment.CommentIdChecker
 import com.github.danzx.xof.core.dataprovider.comment.CommentPersister
 import com.github.danzx.xof.core.dataprovider.comment.CommentUpdater
 import com.github.danzx.xof.core.dataprovider.comment.PaginatedCommentsLoader
-import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.DomainPage
+import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.filter.CommentsFilter
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toComment
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toCommentJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toDomainPage
@@ -29,17 +29,10 @@ import org.springframework.stereotype.Repository
 @Repository
 class CommentPersistenceAdapter : CommentPersister, PaginatedCommentsLoader, CommentByIdLoader, CommentIdChecker, CommentUpdater, CommentByIdRemover {
 
-    @Autowired
-    lateinit var commentJpaRepository: CommentJpaRepository
-
-    @Autowired
-    lateinit var commentVoteJpaRepository: CommentVoteJpaRepository
-
-    @Autowired
-    lateinit var postJpaRepository: PostJpaRepository
-
-    @Autowired
-    lateinit var userJpaRepository: UserJpaRepository
+    @Autowired lateinit var commentJpaRepository: CommentJpaRepository
+    @Autowired lateinit var commentVoteJpaRepository: CommentVoteJpaRepository
+    @Autowired lateinit var postJpaRepository: PostJpaRepository
+    @Autowired lateinit var userJpaRepository: UserJpaRepository
 
     override fun save(comment: Comment): Comment {
         var commentJpaEntity = comment.toCommentJpaEntity()
@@ -48,11 +41,7 @@ class CommentPersistenceAdapter : CommentPersister, PaginatedCommentsLoader, Com
         return comment
     }
 
-    override fun loadPaginated(
-        filter: PaginatedCommentsLoader.Filter,
-        pagination: Pagination,
-        sorting: List<SortSpec>
-    ): DomainPage<Comment> =
+    override fun loadPaginated(filter: CommentsFilter, pagination: Pagination, sorting: List<SortSpec>) =
         commentJpaRepository.findAll(filter.toSpecification(), pagination with sorting).map { it.toComment() }.toDomainPage()
 
     override fun loadById(id: Long) = commentJpaRepository.findByIdOrNull(id)?.toComment()
@@ -70,7 +59,7 @@ class CommentPersistenceAdapter : CommentPersister, PaginatedCommentsLoader, Com
     private fun Comment.toCommentJpaEntity(): CommentJpaEntity {
         val post = postJpaRepository.findByIdOrNull(this.postId)!!
         val user = userJpaRepository.findByIdOrNull(this.user.id)!!
-        val parentComment = if (this.parentId != null) commentJpaRepository.findByIdOrNull(this.parentId) else null
+        val parentComment = parentId?.let { commentJpaRepository.findByIdOrNull(it) }
         return this.toCommentJpaEntity(post, user, parentComment)
     }
 }

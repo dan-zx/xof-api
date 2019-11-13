@@ -16,14 +16,9 @@ import org.springframework.stereotype.Repository
 @Repository
 class PostVotePersistenceAdapter : PostVotePersister {
 
-    @Autowired
-    lateinit var postVoteJpaRepository: PostVoteJpaRepository
-
-    @Autowired
-    lateinit var postJpaRepository: PostJpaRepository
-
-    @Autowired
-    lateinit var userJpaRepository: UserJpaRepository
+    @Autowired lateinit var postVoteJpaRepository: PostVoteJpaRepository
+    @Autowired lateinit var postJpaRepository: PostJpaRepository
+    @Autowired lateinit var userJpaRepository: UserJpaRepository
 
     override fun saveOrUpdate(vote: Vote) {
         val postVoteJpaEntity = findById(vote.toPostVoteJpaEntityId()) ?: vote.toPostVoteJpaEntity()

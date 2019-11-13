@@ -19,8 +19,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class UserPersistenceAdapter : UserPersister, UserByIdLoader, UserByUsernameLoader, UserIdChecker, UserUsernameChecker, UserUpdater, UserByIdRemover {
 
-    @Autowired
-    lateinit var userJpaRepository: UserJpaRepository
+    @Autowired lateinit var userJpaRepository: UserJpaRepository
 
     override fun save(user: User) : User {
         var userJpaEntity = user.toUserJpaEntity()

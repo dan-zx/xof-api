@@ -8,25 +8,25 @@ import com.github.danzx.xof.dataprovider.jpa.entity.PostVoteJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.entity.UserJpaEntity
 
 fun Vote.toPostVoteJpaEntity(post: PostJpaEntity, user: UserJpaEntity) = PostVoteJpaEntity(
-    id = toPostVoteJpaEntityId(),
-    direction = Vote.Direction.ZERO,
-    post = post,
-    user = user
+    toPostVoteJpaEntityId(),
+    Vote.Direction.ZERO,
+    post,
+    user
 )
 
 fun Vote.toPostVoteJpaEntityId() = PostVoteJpaEntity.Id(
-    postId = entityId,
-    userId = userId
+    entityId,
+    userId
 )
 
 fun Vote.toCommentVoteJpaEntity(comment: CommentJpaEntity, user: UserJpaEntity) = CommentVoteJpaEntity(
-    id = toCommentVoteJpaEntityId(),
-    direction = direction,
-    comment = comment,
-    user = user
+    toCommentVoteJpaEntityId(),
+    Vote.Direction.ZERO,
+    comment,
+    user
 )
 
 fun Vote.toCommentVoteJpaEntityId() = CommentVoteJpaEntity.Id(
-    commentId = entityId,
-    userId = userId
+    entityId,
+    userId
 )

@@ -1,19 +1,19 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter.mapper
 
-import com.github.danzx.xof.core.dataprovider.comment.PaginatedCommentsLoader
+import com.github.danzx.xof.core.filter.CommentsFilter
 import com.github.danzx.xof.dataprovider.jpa.entity.CommentJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.repository.specification.CommentJpaSpecifications
 
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.domain.Specifications
 
-fun PaginatedCommentsLoader.Filter.toSpecification(): Specification<CommentJpaEntity> = Specifications.where(userIdEqualsSpec).and(postIdEqualsSpec).and(parentIdEqualsSpec)
+fun CommentsFilter.toSpecification(): Specification<CommentJpaEntity> = Specifications.where(userIdEqualsSpec).and(postIdEqualsSpec).and(parentIdEqualsSpec)
 
-private val PaginatedCommentsLoader.Filter.userIdEqualsSpec
+private val CommentsFilter.userIdEqualsSpec
     get() = userId?.let { CommentJpaSpecifications.userIdEquals(it) }
 
-private val PaginatedCommentsLoader.Filter.postIdEqualsSpec
+private val CommentsFilter.postIdEqualsSpec
     get() = postId?.let { CommentJpaSpecifications.postIdEquals(it) }
 
-private val PaginatedCommentsLoader.Filter.parentIdEqualsSpec
+private val CommentsFilter.parentIdEqualsSpec
     get() = parentId?.let { CommentJpaSpecifications.parentIdEquals(it) }
