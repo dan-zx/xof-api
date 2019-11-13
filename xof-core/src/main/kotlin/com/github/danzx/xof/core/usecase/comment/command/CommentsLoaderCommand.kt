@@ -1,16 +1,14 @@
 package com.github.danzx.xof.core.usecase.comment.command
 
-import com.github.danzx.xof.common.Pagination
-import com.github.danzx.xof.common.SortSpec
+import com.github.danzx.xof.common.pagination.Pagination
+import com.github.danzx.xof.common.sort.SortSpec
+import com.github.danzx.xof.core.filter.CommentsFilter
 
 data class CommentsLoaderCommand(
-    val filter: Filter = Filter(),
+    val filter: CommentsFilter = CommentsFilter(),
     val pagination: Pagination = Pagination(),
-    val sorting: List<SortSpec> = emptyList()) {
+    val sorting: List<SortSpec> = emptyList())
 
-    data class Filter(
-        val userId: Long? = null,
-        val postId: Long? = null,
-        val parentId: Long? = null
-    )
-}
+fun command(filter: CommentsFilter = CommentsFilter(),
+            pagination: Pagination = Pagination(),
+            sorting: List<SortSpec> = emptyList()) = CommentsLoaderCommand(filter, pagination, sorting)

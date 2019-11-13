@@ -1,15 +1,14 @@
 package com.github.danzx.xof.core.usecase.post.command
 
-import com.github.danzx.xof.common.Pagination
-import com.github.danzx.xof.common.SortSpec
+import com.github.danzx.xof.common.pagination.Pagination
+import com.github.danzx.xof.common.sort.SortSpec
+import com.github.danzx.xof.core.filter.PostsFilter
 
 data class PostsLoaderCommand(
-    val filter: Filter = Filter(),
+    val filter: PostsFilter = PostsFilter(),
     val pagination: Pagination = Pagination(),
-    val sorting: List<SortSpec> = emptyList()) {
+    val sorting: List<SortSpec> = emptyList())
 
-    data class Filter(
-        val userId: Long? = null,
-        val titleQuery: String? = null
-    )
-}
+fun command(filter: PostsFilter = PostsFilter(),
+            pagination: Pagination = Pagination(),
+            sorting: List<SortSpec> = emptyList()) = PostsLoaderCommand(filter, pagination, sorting)

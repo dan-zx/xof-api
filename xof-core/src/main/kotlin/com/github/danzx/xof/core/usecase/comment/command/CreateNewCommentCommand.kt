@@ -1,8 +1,7 @@
 package com.github.danzx.xof.core.usecase.comment.command
 
 data class CreateNewCommentCommand(
-    var content: String,
-    var userId: Long,
-    var postId: Long,
-    var parentId: Long?
-)
+    val content: String,
+    val userId: Long,
+    val postId: Long,
+    val parentId: Long?)

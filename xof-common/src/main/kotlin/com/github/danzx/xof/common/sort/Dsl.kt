@@ -1,13 +1,4 @@
-package com.github.danzx.xof.common
-
-data class SortSpec(
-    val property: String,
-    val direction: Direction) {
-
-    enum class Direction {
-        ASC, DESC
-    }
-}
+package com.github.danzx.xof.common.sort
 
 class SortSpecListBuilder {
 
@@ -20,7 +11,10 @@ class SortSpecListBuilder {
     }
 
     operator fun String.unaryMinus() {
-        list += SortSpec(this, SortSpec.Direction.DESC)
+        list += SortSpec(
+            this,
+            SortSpec.Direction.DESC
+        )
     }
 }
 

@@ -4,3 +4,5 @@ import com.github.danzx.xof.core.usecase.command.ReplaceDataValueCommand
 
 typealias ReplacePostContentCommand = ReplaceDataValueCommand<String>
 typealias ReplacePostTitleCommand = ReplaceDataValueCommand<String>
+
+fun command(id: Long, value: String) = ReplaceDataValueCommand(id, value)

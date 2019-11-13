@@ -2,13 +2,6 @@ package com.github.danzx.xof.core.dataprovider.comment
 
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.dataprovider.PaginatedDataLoader
+import com.github.danzx.xof.core.filter.CommentsFilter
 
-interface PaginatedCommentsLoader : PaginatedDataLoader<PaginatedCommentsLoader.Filter, Comment> {
-
-    data class Filter(
-        val userId: Long? = null,
-        val postId: Long? = null,
-        val parentId: Long? = null
-    )
-}
-
+interface PaginatedCommentsLoader : PaginatedDataLoader<CommentsFilter, Comment>

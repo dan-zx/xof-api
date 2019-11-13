@@ -1,6 +1,5 @@
 package com.github.danzx.xof.core.usecase.user
 
-import com.github.danzx.xof.core.annotation.UseCaseComponent
 import com.github.danzx.xof.core.domain.User
 import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 import com.github.danzx.xof.core.usecase.UseCase
@@ -9,17 +8,11 @@ import com.github.danzx.xof.core.dataprovider.user.UserUpdater
 
 import javax.inject.Inject
 
-@UseCaseComponent
 class ReplaceUserUseCase : UseCase<ReplaceUserCommand, User> {
 
-    @Inject
-    lateinit var getUserByIdUseCase: GetUserByIdUseCase
-
-    @Inject
-    lateinit var validateUsernameDoesNotExistUseCase: ValidateUsernameDoesNotExistUseCase
-
-    @Inject
-    lateinit var updater: UserUpdater
+    @Inject lateinit var getUserByIdUseCase: GetUserByIdUseCase
+    @Inject lateinit var validateUsernameDoesNotExistUseCase: ValidateUsernameDoesNotExistUseCase
+    @Inject lateinit var updater: UserUpdater
 
     override operator fun invoke(command: ReplaceUserCommand) : User {
         val user = getUserByIdUseCase(command.id)

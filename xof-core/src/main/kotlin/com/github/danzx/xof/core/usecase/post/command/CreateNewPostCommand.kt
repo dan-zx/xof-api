@@ -1,7 +1,6 @@
 package com.github.danzx.xof.core.usecase.post.command
 
 data class CreateNewPostCommand(
-    var title: String,
-    var content: String,
-    var userId: Long
-)
+    val title: String,
+    val content: String,
+    val userId: Long)

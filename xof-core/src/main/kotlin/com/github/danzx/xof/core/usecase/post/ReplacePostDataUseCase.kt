@@ -7,13 +7,10 @@ import java.time.LocalDateTime.now
 
 import javax.inject.Inject
 
-open class ReplacePostDataUseCase {
+abstract class ReplacePostDataUseCase {
 
-    @Inject
-    lateinit var getPostByIdUseCase: GetPostByIdUseCase
-
-    @Inject
-    lateinit var updater: PostUpdater
+    @Inject lateinit var getPostByIdUseCase: GetPostByIdUseCase
+    @Inject lateinit var updater: PostUpdater
 
     protected fun changePostDataWithId(id: Long, dataChanges: Post.() -> Unit) : Post {
         val post = getPostByIdUseCase(id)
