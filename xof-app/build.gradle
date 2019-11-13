@@ -1,0 +1,16 @@
+plugins {
+    id 'org.springframework.boot' version "$springBootVersion"
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'com.github.danzx.xof.XofApplication'
+    }
+}
+
+dependencies {
+    api project(':xof-rest-api-spring-boot-starter')
+    runtime 'com.h2database:h2'
+}

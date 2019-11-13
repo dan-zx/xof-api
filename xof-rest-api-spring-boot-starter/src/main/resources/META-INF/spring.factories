@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.github.danzx.xof.entrypoint.rest.spring.boot.autoconfigure.XofRestWsAdapterAutoConfiguration,\
+  com.github.danzx.xof.entrypoint.rest.spring.boot.autoconfigure.XofSwaggerDocsAutoConfiguration,\
+  com.github.danzx.xof.entrypoint.rest.spring.boot.autoconfigure.XofSwaggerUiAutoConfiguration
