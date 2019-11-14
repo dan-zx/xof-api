@@ -8,7 +8,3 @@ data class CommentsLoaderCommand(
     val filter: CommentsFilter = CommentsFilter(),
     val pagination: Pagination = Pagination(),
     val sorting: List<SortSpec> = emptyList())
-
-fun command(filter: CommentsFilter = CommentsFilter(),
-            pagination: Pagination = Pagination(),
-            sorting: List<SortSpec> = emptyList()) = CommentsLoaderCommand(filter, pagination, sorting)

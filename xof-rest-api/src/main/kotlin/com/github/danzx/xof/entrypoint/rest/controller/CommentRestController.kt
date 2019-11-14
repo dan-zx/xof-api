@@ -1,10 +1,10 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
-import com.github.danzx.xof.common.pagination.page
-import com.github.danzx.xof.common.pagination.paginationWith
+import com.github.danzx.xof.common.pagination.dsl.page
+import com.github.danzx.xof.common.pagination.dsl.paginationWith
 import com.github.danzx.xof.core.domain.Comment
-import com.github.danzx.xof.core.filter.commentsWith
-import com.github.danzx.xof.core.filter.parentId
+import com.github.danzx.xof.core.filter.dsl.commentsWith
+import com.github.danzx.xof.core.filter.dsl.parentId
 import com.github.danzx.xof.entrypoint.rest.adapter.CommentUseCaseAdapter
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreateCommentRequest

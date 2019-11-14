@@ -8,7 +8,3 @@ data class PostsLoaderCommand(
     val filter: PostsFilter = PostsFilter(),
     val pagination: Pagination = Pagination(),
     val sorting: List<SortSpec> = emptyList())
-
-fun command(filter: PostsFilter = PostsFilter(),
-            pagination: Pagination = Pagination(),
-            sorting: List<SortSpec> = emptyList()) = PostsLoaderCommand(filter, pagination, sorting)

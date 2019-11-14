@@ -1,7 +1,7 @@
 package com.github.danzx.xof.entrypoint.rest.adapter
 
 import com.github.danzx.xof.common.pagination.Pagination
-import com.github.danzx.xof.common.sort.sortBy
+import com.github.danzx.xof.common.sort.dsl.sortBy
 import com.github.danzx.xof.core.filter.CommentsFilter
 import com.github.danzx.xof.core.usecase.comment.CreateNewCommentUseCase
 import com.github.danzx.xof.core.usecase.comment.DeleteCommentByIdUseCase
@@ -9,7 +9,8 @@ import com.github.danzx.xof.core.usecase.comment.GetCommentByIdUseCase
 import com.github.danzx.xof.core.usecase.comment.GetCommentsUseCase
 import com.github.danzx.xof.core.usecase.comment.ReplaceCommentContentUseCase
 import com.github.danzx.xof.core.usecase.comment.VoteOnCommentUseCase
-import com.github.danzx.xof.core.usecase.comment.command.command
+import com.github.danzx.xof.core.usecase.comment.command.CommentsLoaderCommand
+import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
 import com.github.danzx.xof.entrypoint.rest.mapper.toCreateNewCommentCommand
 import com.github.danzx.xof.entrypoint.rest.mapper.toPageResponse
 import com.github.danzx.xof.entrypoint.rest.mapper.toVote
@@ -36,10 +37,10 @@ class CommentUseCaseAdapter {
     fun getById(id: Long) = getCommentByIdUseCase(id)
 
     fun getAll(filter: CommentsFilter, pagination: Pagination) =
-        getCommentsUseCase(command(filter, pagination, sortBy { +"created" }))
+        getCommentsUseCase(CommentsLoaderCommand(filter, pagination, sortBy { +"created" }))
             .toPageResponse()
 
-    fun replaceContent(id: Long, content: String) = replaceCommentContentUseCase(command(id, content))
+    fun replaceContent(id: Long, content: String) = replaceCommentContentUseCase(ReplaceCommentContentCommand(id, content))
 
     fun vote(id: Long, request: VoteRequest) = voteOnCommentUseCase(request.toVote(id))
 

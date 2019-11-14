@@ -1,7 +1,8 @@
-package com.github.danzx.xof.common.sort
+package com.github.danzx.xof.common.sort.dsl
+
+import com.github.danzx.xof.common.sort.SortSpec
 
 class SortSpecListBuilder {
-
     private val list = mutableListOf<SortSpec>()
 
     fun build(): List<SortSpec> = list

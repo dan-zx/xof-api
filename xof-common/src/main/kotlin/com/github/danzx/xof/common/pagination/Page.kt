@@ -1,16 +1,15 @@
 package com.github.danzx.xof.common.pagination
 
-data class Page<T>(
+data class Page<T> (
     val data: Collection<T> = emptyList(),
-    val metadata: Metadata = Metadata()) {
+    val metadata: Metadata) {
 
     val hasPrevious = metadata.number > 1
     val hasNext = metadata.number < metadata.totalPages
-    val isLast = !hasNext
 
     data class Metadata(
-        var total: Long = 0,
-        var count: Int = 0,
-        var totalPages: Int = 0,
-        var number: Int = 1)
+        val total: Long = 0,
+        val count: Int = 0,
+        val totalPages: Int = 0,
+        val number: Int = 1)
 }
