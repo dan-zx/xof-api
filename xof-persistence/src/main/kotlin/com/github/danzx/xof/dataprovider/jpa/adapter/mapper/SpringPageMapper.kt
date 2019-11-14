@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page
 
 fun <T> Page<T>.toDomainPage() = DomainPage<T>(
     content,
-    DomainPageMeta(
+    DomainPageMetadata(
         totalElements,
         size,
         totalPages,
