@@ -11,6 +11,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 import java.time.LocalDateTime
 
+fun HttpStatus.toResponseEntity(message: String = "No message available") = toErrorResponse(message).toResponseEntity()
+
 fun HttpStatus.toErrorResponse(message: String = "No message available") = ErrorResponse(
     error = reasonPhrase,
     message = message,
