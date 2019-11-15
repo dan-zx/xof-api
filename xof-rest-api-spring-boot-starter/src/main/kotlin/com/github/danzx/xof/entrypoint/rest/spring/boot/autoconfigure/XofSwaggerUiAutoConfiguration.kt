@@ -15,6 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class XofSwaggerUiAutoConfiguration : WebMvcConfigurer {
 
     override fun addViewControllers(registry: ViewControllerRegistry) {
-        registry.addViewController("/").setViewName("redirect:/swagger-ui.html");
+        registry.addViewController("/").setViewName("redirect:/swagger-ui.html")
     }
 }

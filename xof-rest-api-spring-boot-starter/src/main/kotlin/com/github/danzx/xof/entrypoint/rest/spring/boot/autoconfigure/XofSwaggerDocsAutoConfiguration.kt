@@ -23,16 +23,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 class XofSwaggerDocsAutoConfiguration(private val properties: XofRestWsProperties) {
 
     @Bean
-    open fun api() = Docket(SWAGGER_2)
+    fun api() = Docket(SWAGGER_2)
         .apiInfo(swaggerMetaData())
         .host(properties.url)
         .select()
         .apis(basePackage("com.github.danzx.xof.entrypoint.rest.controller"))
-        .build()
+        .build()!!
 
     private fun swaggerMetaData() = ApiInfoBuilder()
         .title(properties.swagger.title)
         .version(properties.swagger.version)
-        .build()
+        .build()!!
 
 }
