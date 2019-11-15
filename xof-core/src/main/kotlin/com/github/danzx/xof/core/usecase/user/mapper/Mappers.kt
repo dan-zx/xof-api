@@ -5,7 +5,7 @@ import com.github.danzx.xof.core.domain.User
 import com.github.danzx.xof.core.usecase.user.command.CreateNewUserCommand
 import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 
-import java.time.LocalDateTime
+import java.time.LocalDateTime.now
 
 fun CreateNewUserCommand.toNewUser() = User(
     id = AUTO_GENERATED_ID,
@@ -13,7 +13,7 @@ fun CreateNewUserCommand.toNewUser() = User(
     lastName = lastName,
     username = username,
     avatarImageUrl = avatarImageUrl,
-    join = LocalDateTime.now()
+    join = now()
 )
 
 infix fun ReplaceUserCommand.copyTo(user: User) {

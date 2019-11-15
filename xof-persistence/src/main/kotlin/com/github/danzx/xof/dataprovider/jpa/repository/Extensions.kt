@@ -1,6 +1,5 @@
 package com.github.danzx.xof.dataprovider.jpa.repository
 
-
 fun CommentVoteJpaRepository.countVotesByCommentId(commentId: Long) =
     countByCommentIdGroupingByDirection(commentId)
         .asSequence()

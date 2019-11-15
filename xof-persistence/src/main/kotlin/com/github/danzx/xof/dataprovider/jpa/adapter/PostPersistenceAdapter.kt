@@ -2,12 +2,12 @@ package com.github.danzx.xof.dataprovider.jpa.adapter
 
 import com.github.danzx.xof.common.pagination.Pagination
 import com.github.danzx.xof.common.sort.SortSpec
-import com.github.danzx.xof.core.dataprovider.post.PaginatedPostsLoader
-import com.github.danzx.xof.core.dataprovider.post.PostByIdLoader
-import com.github.danzx.xof.core.dataprovider.post.PostByIdRemover
-import com.github.danzx.xof.core.dataprovider.post.PostIdChecker
-import com.github.danzx.xof.core.dataprovider.post.PostPersister
-import com.github.danzx.xof.core.dataprovider.post.PostUpdater
+import com.github.danzx.xof.core.dataprovider.PaginatedPostsLoader
+import com.github.danzx.xof.core.dataprovider.PostByIdLoader
+import com.github.danzx.xof.core.dataprovider.PostByIdRemover
+import com.github.danzx.xof.core.dataprovider.PostIdChecker
+import com.github.danzx.xof.core.dataprovider.PostPersister
+import com.github.danzx.xof.core.dataprovider.PostUpdater
 import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.filter.PostsFilter
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toDomainPage

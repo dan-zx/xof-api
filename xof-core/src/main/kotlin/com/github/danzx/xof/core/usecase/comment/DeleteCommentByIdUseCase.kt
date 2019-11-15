@@ -1,6 +1,6 @@
 package com.github.danzx.xof.core.usecase.comment
 
-import com.github.danzx.xof.core.dataprovider.comment.CommentByIdRemover
+import com.github.danzx.xof.core.dataprovider.CommentByIdRemover
 import com.github.danzx.xof.core.usecase.UseCase
 
 import javax.inject.Inject

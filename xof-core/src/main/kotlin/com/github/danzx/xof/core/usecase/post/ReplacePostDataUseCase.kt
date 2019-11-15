@@ -1,7 +1,7 @@
 package com.github.danzx.xof.core.usecase.post
 
+import com.github.danzx.xof.core.dataprovider.PostUpdater
 import com.github.danzx.xof.core.domain.Post
-import com.github.danzx.xof.core.dataprovider.post.PostUpdater
 
 import java.time.LocalDateTime.now
 

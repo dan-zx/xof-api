@@ -1,10 +1,10 @@
 package com.github.danzx.xof.core.usecase.user
 
+import com.github.danzx.xof.core.dataprovider.UserUpdater
 import com.github.danzx.xof.core.domain.User
-import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 import com.github.danzx.xof.core.usecase.UseCase
+import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 import com.github.danzx.xof.core.usecase.user.mapper.copyTo
-import com.github.danzx.xof.core.dataprovider.user.UserUpdater
 
 import javax.inject.Inject
 

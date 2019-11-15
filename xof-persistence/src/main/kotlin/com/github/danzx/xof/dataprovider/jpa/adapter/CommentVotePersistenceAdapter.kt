@@ -1,6 +1,6 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter
 
-import com.github.danzx.xof.core.dataprovider.comment.CommentVotePersister
+import com.github.danzx.xof.core.dataprovider.CommentVotePersister
 import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toCommentVoteJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toCommentVoteJpaEntityId

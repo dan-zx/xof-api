@@ -9,3 +9,7 @@ data class User(
     var username: String,
     var avatarImageUrl: String,
     var join: LocalDateTime)
+
+data class SimpleUser(
+    var id: Long,
+    var username: String)

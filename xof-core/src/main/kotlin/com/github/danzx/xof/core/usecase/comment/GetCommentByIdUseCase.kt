@@ -1,6 +1,6 @@
 package com.github.danzx.xof.core.usecase.comment
 
-import com.github.danzx.xof.core.dataprovider.comment.CommentByIdLoader
+import com.github.danzx.xof.core.dataprovider.CommentByIdLoader
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.exception.CommentNotFoundException
 import com.github.danzx.xof.core.usecase.UseCase

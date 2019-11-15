@@ -2,12 +2,12 @@ package com.github.danzx.xof.dataprovider.jpa.adapter
 
 import com.github.danzx.xof.common.pagination.Pagination
 import com.github.danzx.xof.common.sort.SortSpec
-import com.github.danzx.xof.core.dataprovider.comment.CommentByIdLoader
-import com.github.danzx.xof.core.dataprovider.comment.CommentByIdRemover
-import com.github.danzx.xof.core.dataprovider.comment.CommentIdChecker
-import com.github.danzx.xof.core.dataprovider.comment.CommentPersister
-import com.github.danzx.xof.core.dataprovider.comment.CommentUpdater
-import com.github.danzx.xof.core.dataprovider.comment.PaginatedCommentsLoader
+import com.github.danzx.xof.core.dataprovider.CommentByIdLoader
+import com.github.danzx.xof.core.dataprovider.CommentByIdRemover
+import com.github.danzx.xof.core.dataprovider.CommentIdChecker
+import com.github.danzx.xof.core.dataprovider.CommentPersister
+import com.github.danzx.xof.core.dataprovider.CommentUpdater
+import com.github.danzx.xof.core.dataprovider.PaginatedCommentsLoader
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.filter.CommentsFilter
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toComment

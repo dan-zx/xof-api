@@ -1,6 +1,6 @@
 package com.github.danzx.xof.core.usecase.comment
 
-import com.github.danzx.xof.core.dataprovider.comment.CommentUpdater
+import com.github.danzx.xof.core.dataprovider.CommentUpdater
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
