@@ -15,6 +15,6 @@ class ResponseEntity {
                     .toUri())
                 .body(payload)
 
-        fun noContent() = SpringResponseEntity.noContent().build<Any>()
+        fun noContent() = SpringResponseEntity.noContent().build<Void>()
     }
 }
