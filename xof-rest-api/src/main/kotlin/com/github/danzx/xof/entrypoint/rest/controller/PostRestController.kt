@@ -20,14 +20,15 @@ import com.github.danzx.xof.core.usecase.post.VoteOnPostUseCase
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostContentCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostTitleCommand
-import com.github.danzx.xof.entrypoint.rest.mapper.toCreateNewPostCommand
-import com.github.danzx.xof.entrypoint.rest.mapper.toPageResponse
-import com.github.danzx.xof.entrypoint.rest.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
 import com.github.danzx.xof.entrypoint.rest.request.TitleUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
-import com.github.danzx.xof.entrypoint.rest.utils.ResponseEntity
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewPostCommand
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
+import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toResponseEntity
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -135,7 +136,7 @@ class PostRestController {
         useCaseExecutor(
             useCase = createNewPostUseCase,
             command = request.toCreateNewPostCommand(),
-            responseConverter = { ResponseEntity.created(it.id, it) }
+            responseConverter = { it.toResponseEntity() }
         )
 
     @PutMapping("/{id}/title")
@@ -181,7 +182,7 @@ class PostRestController {
         useCaseExecutor(
             useCase = voteOnPostUseCase,
             command = request.toVote(id),
-            responseConverter = { ResponseEntity.noContent() }
+            responseConverter = { responseEntityWithNoContent() }
         )
 
     @DeleteMapping("/{id}")
@@ -195,6 +196,6 @@ class PostRestController {
         useCaseExecutor(
             useCase = deletePostByIdUseCase,
             command = id,
-            responseConverter = { ResponseEntity.noContent() }
+            responseConverter = { responseEntityWithNoContent() }
         )
 }

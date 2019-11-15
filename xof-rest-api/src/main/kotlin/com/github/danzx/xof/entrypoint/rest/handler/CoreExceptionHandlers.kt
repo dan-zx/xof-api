@@ -4,8 +4,8 @@ import com.github.danzx.xof.core.exception.CommentNotFoundException
 import com.github.danzx.xof.core.exception.PostNotFoundException
 import com.github.danzx.xof.core.exception.UserNotFoundException
 import com.github.danzx.xof.core.exception.UsernameAlreadyExistsException
-import com.github.danzx.xof.entrypoint.rest.mapper.toErrorResponse
-import com.github.danzx.xof.entrypoint.rest.mapper.toResponseEntity
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toErrorResponse
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toResponseEntity
 
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.http.HttpStatus.NOT_FOUND

@@ -1,4 +1,4 @@
-package com.github.danzx.xof.entrypoint.rest.mapper
+package com.github.danzx.xof.entrypoint.rest.response.mapper
 
 import com.github.danzx.xof.common.pagination.Page
 import com.github.danzx.xof.entrypoint.rest.response.PageResponse
@@ -18,8 +18,8 @@ fun <T> Page<T>.toPageResponse() = PageResponse(
 
 private fun <T> Page<T>.buildLinks(): PageResponse.Links {
     val selfUrl = buildLinkUrlForPage(metadata.number, metadata.count)
-    val previousUrl = hasPrevious.then { buildLinkUrlForPage(metadata.number-1, metadata.count) }
-    val nextUrl = hasNext.then { buildLinkUrlForPage(metadata.number+1, metadata.count) }
+    val previousUrl = hasPrevious.then { buildLinkUrlForPage(metadata.number - 1, metadata.count) }
+    val nextUrl = hasNext.then { buildLinkUrlForPage(metadata.number + 1, metadata.count) }
     return PageResponse.Links(previousUrl, selfUrl, nextUrl)
 }
 

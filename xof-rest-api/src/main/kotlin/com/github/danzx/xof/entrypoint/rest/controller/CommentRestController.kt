@@ -14,13 +14,14 @@ import com.github.danzx.xof.core.usecase.comment.ReplaceCommentContentUseCase
 import com.github.danzx.xof.core.usecase.comment.VoteOnCommentUseCase
 import com.github.danzx.xof.core.usecase.comment.command.CommentsLoaderCommand
 import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
-import com.github.danzx.xof.entrypoint.rest.mapper.toCreateNewCommentCommand
-import com.github.danzx.xof.entrypoint.rest.mapper.toPageResponse
-import com.github.danzx.xof.entrypoint.rest.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreateCommentRequest
 import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
-import com.github.danzx.xof.entrypoint.rest.utils.ResponseEntity
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewCommentCommand
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
+import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toResponseEntity
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -103,7 +104,7 @@ class CommentRestController {
         useCaseExecutor(
             useCase = createNewCommentUseCase,
             command = request.toCreateNewCommentCommand(),
-            responseConverter = { ResponseEntity.created(it.id, it) }
+            responseConverter = { it.toResponseEntity() }
         )
 
     @PutMapping("/{id}/content")
@@ -134,7 +135,7 @@ class CommentRestController {
         useCaseExecutor(
             useCase = voteOnCommentUseCase,
             command = request.toVote(id),
-            responseConverter = { ResponseEntity.noContent() }
+            responseConverter = { responseEntityWithNoContent() }
         )
 
     @DeleteMapping("/{id}")
@@ -148,6 +149,6 @@ class CommentRestController {
         useCaseExecutor(
             useCase = deleteCommentByIdUseCase,
             command = id,
-            responseConverter = { ResponseEntity.noContent() }
+            responseConverter = { responseEntityWithNoContent() }
         )
 }

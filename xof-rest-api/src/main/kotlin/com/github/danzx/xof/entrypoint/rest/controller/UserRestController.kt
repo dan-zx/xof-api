@@ -16,12 +16,13 @@ import com.github.danzx.xof.core.usecase.user.DeleteUserByIdUseCase
 import com.github.danzx.xof.core.usecase.user.GetUserByIdUseCase
 import com.github.danzx.xof.core.usecase.user.GetUserByUsernameUseCase
 import com.github.danzx.xof.core.usecase.user.ReplaceUserUseCase
-import com.github.danzx.xof.entrypoint.rest.mapper.toCreateNewUserCommand
-import com.github.danzx.xof.entrypoint.rest.mapper.toPageResponse
-import com.github.danzx.xof.entrypoint.rest.mapper.toReplaceUserCommand
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
-import com.github.danzx.xof.entrypoint.rest.utils.ResponseEntity
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewUserCommand
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceUserCommand
+import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toResponseEntity
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -142,7 +143,7 @@ class UserRestController {
         useCaseExecutor(
             useCase = createNewUserUseCase,
             command = request.toCreateNewUserCommand(),
-            responseConverter = { ResponseEntity.created(it.id, it) }
+            responseConverter = { it.toResponseEntity() }
         )
 
     @PutMapping("/{id}")
@@ -171,6 +172,6 @@ class UserRestController {
         useCaseExecutor(
             useCase = deleteUserByIdUseCase,
             command = id,
-            responseConverter = { ResponseEntity.noContent() }
+            responseConverter = { responseEntityWithNoContent() }
         )
 }

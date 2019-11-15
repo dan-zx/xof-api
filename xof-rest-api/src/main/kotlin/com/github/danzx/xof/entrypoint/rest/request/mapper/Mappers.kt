@@ -1,4 +1,4 @@
-package com.github.danzx.xof.entrypoint.rest.mapper
+package com.github.danzx.xof.entrypoint.rest.request.mapper
 
 import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
