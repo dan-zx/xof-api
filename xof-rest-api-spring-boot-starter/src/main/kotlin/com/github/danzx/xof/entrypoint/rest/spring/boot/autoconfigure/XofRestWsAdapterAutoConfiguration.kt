@@ -6,5 +6,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
 @EnableWebMvc
 @Configuration
-@ComponentScan("com.github.danzx.xof.entrypoint.rest.adapter", "com.github.danzx.xof.entrypoint.rest.controller")
+@ComponentScan("com.github.danzx.xof.entrypoint.rest.controller")
 class XofRestWsAdapterAutoConfiguration
