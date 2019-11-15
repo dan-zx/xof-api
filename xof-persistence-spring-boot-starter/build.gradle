@@ -1,7 +1,0 @@
-dependencies {
-    api project(':xof-persistence')
-    api "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
-
-    annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor:$springBootVersion"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:$springBootVersion"
-}

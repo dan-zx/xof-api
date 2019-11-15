@@ -5,9 +5,9 @@ dependencies {
     api "io.springfox:springfox-bean-validators:$springfoxSwaggerVersion"
     api "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
 
-    compileOnly "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-    compileOnly "org.springframework:spring-core:$springFrameworkVersion"
-    compileOnly "org.springframework:spring-tx:$springFrameworkVersion"
-    compileOnly "org.springframework:spring-web:$springFrameworkVersion"
-    compileOnly "org.springframework:spring-webmvc:$springFrameworkVersion"
+    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
+    implementation "org.springframework:spring-core:$springFrameworkVersion"
+    implementation "org.springframework:spring-tx:$springFrameworkVersion"
+    implementation "org.springframework:spring-web:$springFrameworkVersion"
+    implementation "org.springframework:spring-webmvc:$springFrameworkVersion"
 }

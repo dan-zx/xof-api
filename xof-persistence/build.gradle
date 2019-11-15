@@ -1,6 +1,6 @@
 dependencies {
     api project(':xof-core')
 
-    compileOnly "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
-    compileOnly "org.hibernate:hibernate-core:$hibernateVersion"
+    implementation "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
+    implementation "org.hibernate:hibernate-core:$hibernateVersion"
 }
