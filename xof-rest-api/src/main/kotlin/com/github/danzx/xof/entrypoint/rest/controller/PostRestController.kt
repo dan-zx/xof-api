@@ -1,7 +1,5 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
-import com.github.danzx.xof.common.pagination.dsl.page
-import com.github.danzx.xof.common.pagination.dsl.paginationWith
 import com.github.danzx.xof.common.sort.dsl.sortBy
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postId
@@ -22,9 +20,11 @@ import com.github.danzx.xof.core.usecase.post.command.ReplacePostContentCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostTitleCommand
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
+import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.TitleUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewPostCommand
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
@@ -87,16 +87,12 @@ class PostRestController {
     )
     fun getFilteredWithPagination(
         @RequestParam("q", required=false) titleQuery: String?,
-        @RequestParam("page", required=false) @Min(1) pageNumber: Int?,
-        @RequestParam("size", required=false) @Min(1) pageSize: Int?) =
+        @Valid paginationRequest: PaginationRequest) =
         useCaseExecutor(
             useCase = getPostsUseCase,
             command = PostsLoaderCommand(
                 postsWith { title containing titleQuery },
-                paginationWith {
-                    page number pageNumber
-                    page size pageSize
-                },
+                paginationRequest.toPagination(),
                 sortBy { +"created" }
             ),
             responseConverter = { it.toPageResponse() }
@@ -110,16 +106,12 @@ class PostRestController {
     )
     fun getComments(
         @PathVariable @Min(1) id: Long,
-        @RequestParam("page", required=false) @Min(1) pageNumber: Int?,
-        @RequestParam("size", required=false) @Min(1) pageSize: Int?) =
+        @Valid paginationRequest: PaginationRequest) =
         useCaseExecutor(
             useCase = getCommentsUseCase,
             command = CommentsLoaderCommand(
                 commentsWith { postId eq id },
-                paginationWith {
-                    page number pageNumber
-                    page size pageSize
-                },
+                paginationRequest.toPagination(),
                 sortBy { +"created" }
             ),
             responseConverter = { it.toPageResponse() }

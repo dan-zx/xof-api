@@ -1,7 +1,5 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
-import com.github.danzx.xof.common.pagination.dsl.page
-import com.github.danzx.xof.common.pagination.dsl.paginationWith
 import com.github.danzx.xof.common.sort.dsl.sortBy
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postsWith
@@ -17,8 +15,10 @@ import com.github.danzx.xof.core.usecase.user.GetUserByIdUseCase
 import com.github.danzx.xof.core.usecase.user.GetUserByUsernameUseCase
 import com.github.danzx.xof.core.usecase.user.ReplaceUserUseCase
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
+import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewUserCommand
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceUserCommand
 import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
@@ -94,16 +94,12 @@ class UserRestController {
     )
     fun getPosts(
         @PathVariable @Min(1) id: Long,
-        @RequestParam("page", required=false) @Min(1) pageNumber: Int?,
-        @RequestParam("size", required=false) @Min(1) pageSize: Int?) =
+        @Valid paginationRequest: PaginationRequest) =
         useCaseExecutor(
             useCase = getPostsUseCase,
             command = PostsLoaderCommand(
                 postsWith { userId eq id },
-                paginationWith {
-                    page number pageNumber
-                    page size pageSize
-                },
+                paginationRequest.toPagination(),
                 sortBy { +"created" }
             ),
             responseConverter = { it.toPageResponse() }
@@ -117,16 +113,12 @@ class UserRestController {
     )
     fun getComments(
         @PathVariable @Min(1) id: Long,
-        @RequestParam("page", required=false) @Min(1) pageNumber: Int?,
-        @RequestParam("size", required=false) @Min(1) pageSize: Int?) =
+        @Valid paginationRequest: PaginationRequest) =
         useCaseExecutor(
             useCase = getCommentsUseCase,
             command = CommentsLoaderCommand(
                 commentsWith { userId eq id },
-                paginationWith {
-                    page number pageNumber
-                    page size pageSize
-                },
+                paginationRequest.toPagination(),
                 sortBy { +"created" }
             ),
             responseConverter = { it.toPageResponse() }

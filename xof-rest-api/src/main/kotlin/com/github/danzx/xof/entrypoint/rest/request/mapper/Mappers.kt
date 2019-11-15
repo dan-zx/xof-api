@@ -1,5 +1,6 @@
 package com.github.danzx.xof.entrypoint.rest.request.mapper
 
+import com.github.danzx.xof.common.pagination.Pagination
 import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
 import com.github.danzx.xof.core.usecase.post.command.CreateNewPostCommand
@@ -8,6 +9,7 @@ import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 import com.github.danzx.xof.entrypoint.rest.request.CreateCommentRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
+import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 
@@ -43,4 +45,9 @@ fun CreateCommentRequest.toCreateNewCommentCommand() = CreateNewCommentCommand(
     userId = userId,
     postId = postId,
     parentId = parentId
+)
+
+fun PaginationRequest.toPagination() = Pagination(
+    page,
+    size
 )
