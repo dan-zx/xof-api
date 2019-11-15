@@ -22,7 +22,7 @@ import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewUserComman
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceUserCommand
 import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
-import com.github.danzx.xof.entrypoint.rest.response.mapper.toResponseEntity
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -143,7 +143,7 @@ class UserRestController {
         useCaseExecutor(
             useCase = createNewUserUseCase,
             command = request.toCreateNewUserCommand(),
-            responseConverter = { it.toResponseEntity() }
+            responseConverter = { it.toCreatedResponseEntity() }
         )
 
     @PutMapping("/{id}")

@@ -21,7 +21,7 @@ import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewCommentCom
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
-import com.github.danzx.xof.entrypoint.rest.response.mapper.toResponseEntity
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -104,7 +104,7 @@ class CommentRestController {
         useCaseExecutor(
             useCase = createNewCommentUseCase,
             command = request.toCreateNewCommentCommand(),
-            responseConverter = { it.toResponseEntity() }
+            responseConverter = { it.toCreatedResponseEntity() }
         )
 
     @PutMapping("/{id}/content")

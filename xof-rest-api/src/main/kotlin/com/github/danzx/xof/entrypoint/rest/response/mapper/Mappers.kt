@@ -20,9 +20,9 @@ fun HttpStatus.toErrorResponse(message: String = "No message available") = Error
 )
 
 fun ErrorResponse.toResponseEntity() = ResponseEntity.status(status).body(this)
-fun User.toResponseEntity() = responseEntityForCreatedResource(id, this)
-fun Post.toResponseEntity() = responseEntityForCreatedResource(id, this)
-fun Comment.toResponseEntity() = responseEntityForCreatedResource(id, this)
+fun User.toCreatedResponseEntity() = responseEntityForCreatedResource(id, this)
+fun Post.toCreatedResponseEntity() = responseEntityForCreatedResource(id, this)
+fun Comment.toCreatedResponseEntity() = responseEntityForCreatedResource(id, this)
 
 fun responseEntityWithNoContent() = ResponseEntity.noContent().build<Void>()
 
