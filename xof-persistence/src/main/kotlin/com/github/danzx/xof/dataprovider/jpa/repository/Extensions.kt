@@ -2,12 +2,8 @@ package com.github.danzx.xof.dataprovider.jpa.repository
 
 fun CommentVoteJpaRepository.countVotesByCommentId(commentId: Long) =
     countByCommentIdGroupingByDirection(commentId)
-        .asSequence()
-        .map { it.count * it.direction.value }
-        .sum()
+        .fold(0L, {sum, view -> sum + (view.count * view.direction.value)})
 
 fun PostVoteJpaRepository.countVotesByPostId(postId: Long) =
     countByPostIdGroupingByDirection(postId)
-        .asSequence()
-        .map { it.count * it.direction.value }
-        .sum()
+        .fold(0L, {sum, view -> sum + (view.count * view.direction.value)})
