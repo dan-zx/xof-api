@@ -20,7 +20,7 @@ import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewUserCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceUserCommand
-import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
+import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
 
@@ -164,6 +164,6 @@ class UserRestController {
         useCaseExecutor(
             useCase = deleteUserByIdUseCase,
             command = id,
-            responseConverter = { responseEntityWithNoContent() }
+            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 }

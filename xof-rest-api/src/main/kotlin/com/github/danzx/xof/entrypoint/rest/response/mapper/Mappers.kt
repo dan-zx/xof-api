@@ -9,24 +9,22 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
-import java.time.LocalDateTime
+import java.time.LocalDateTime.now
 
-fun HttpStatus.toResponseEntity(message: String = "No message available") = toErrorResponse(message).toResponseEntity()
+fun HttpStatus.toResponseEntity(message: String) = toErrorResponse(message).toResponseEntity()
 
-fun HttpStatus.toErrorResponse(message: String = "No message available") = ErrorResponse(
+fun HttpStatus.toErrorResponse(message: String) = ErrorResponse(
     error = reasonPhrase,
     message = message,
     path = ServletUriComponentsBuilder.fromCurrentRequest().build().path!!,
     status = value(),
-    timestamp = LocalDateTime.now()
+    timestamp = now()
 )
 
 fun ErrorResponse.toResponseEntity() = ResponseEntity.status(status).body(this)
 fun User.toCreatedResponseEntity() = responseEntityForCreatedResource(id, this)
 fun Post.toCreatedResponseEntity() = responseEntityForCreatedResource(id, this)
 fun Comment.toCreatedResponseEntity() = responseEntityForCreatedResource(id, this)
-
-fun responseEntityWithNoContent() = ResponseEntity.noContent().build<Void>()
 
 private fun <T> responseEntityForCreatedResource(id: Any, payload: T) =
     ResponseEntity.created(

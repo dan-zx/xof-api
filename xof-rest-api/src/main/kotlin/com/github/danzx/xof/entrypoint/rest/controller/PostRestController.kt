@@ -26,7 +26,7 @@ import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewPostCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
-import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
+import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
 
@@ -174,7 +174,7 @@ class PostRestController {
         useCaseExecutor(
             useCase = voteOnPostUseCase,
             command = request.toVote(id),
-            responseConverter = { responseEntityWithNoContent() }
+            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 
     @DeleteMapping("/{id}")
@@ -188,6 +188,6 @@ class PostRestController {
         useCaseExecutor(
             useCase = deletePostByIdUseCase,
             command = id,
-            responseConverter = { responseEntityWithNoContent() }
+            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 }

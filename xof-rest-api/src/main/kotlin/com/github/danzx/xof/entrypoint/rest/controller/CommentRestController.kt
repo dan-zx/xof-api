@@ -19,7 +19,7 @@ import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewCommentCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
-import com.github.danzx.xof.entrypoint.rest.response.mapper.responseEntityWithNoContent
+import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
 
@@ -130,7 +130,7 @@ class CommentRestController {
         useCaseExecutor(
             useCase = voteOnCommentUseCase,
             command = request.toVote(id),
-            responseConverter = { responseEntityWithNoContent() }
+            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 
     @DeleteMapping("/{id}")
@@ -144,6 +144,6 @@ class CommentRestController {
         useCaseExecutor(
             useCase = deleteCommentByIdUseCase,
             command = id,
-            responseConverter = { responseEntityWithNoContent() }
+            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 }
