@@ -4,7 +4,7 @@ import com.github.danzx.xof.core.dataprovider.CommentPersister
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
-import com.github.danzx.xof.core.usecase.comment.mapper.toNewComment
+import com.github.danzx.xof.core.usecase.mapper.toComment
 import com.github.danzx.xof.core.usecase.post.ValidatePostIdExistsUseCase
 import com.github.danzx.xof.core.usecase.user.ValidateUserIdExistsUseCase
 
@@ -21,6 +21,6 @@ class CreateNewCommentUseCase : UseCase<CreateNewCommentCommand, Comment> {
         validateUserIdExistsUseCase(command.userId)
         validatePostIdExistsUseCase(command.postId)
         command.parentId?.let { validateCommentIdExistsUseCase(it) }
-        return persister.save(command.toNewComment())
+        return persister.save(command.toComment())
     }
 }
