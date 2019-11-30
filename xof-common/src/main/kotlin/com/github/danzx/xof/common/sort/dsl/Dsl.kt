@@ -12,10 +12,7 @@ class SortSpecListBuilder {
     }
 
     operator fun String.unaryMinus() {
-        list += SortSpec(
-            this,
-            SortSpec.Direction.DESC
-        )
+        list += SortSpec(this, SortSpec.Direction.DESC)
     }
 }
 
