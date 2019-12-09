@@ -18,8 +18,7 @@ class ReplaceUserUseCase : UseCase<ReplaceUserCommand, User> {
         val user = getUserByIdUseCase(command.id)
         validateUsernameDoesNotExistsIfDifferent(user, command)
         command copyTo user
-        updater.update(user)
-        return user
+        return updater.update(user)
     }
 
     private fun validateUsernameDoesNotExistsIfDifferent(old: User, replacement: ReplaceUserCommand) {
