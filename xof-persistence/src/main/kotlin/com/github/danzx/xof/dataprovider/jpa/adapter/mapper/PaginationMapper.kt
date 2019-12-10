@@ -1,7 +1,7 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter.mapper
 
-import com.github.danzx.xof.common.pagination.Pagination
-import com.github.danzx.xof.common.sort.SortSpec
+import com.github.danzx.xof.core.util.Pagination
+import com.github.danzx.xof.core.util.SortSpec
 
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable

@@ -1,8 +1,8 @@
 package com.github.danzx.xof.core.usecase.post.command
 
-import com.github.danzx.xof.common.pagination.Pagination
-import com.github.danzx.xof.common.sort.SortSpec
 import com.github.danzx.xof.core.filter.PostsFilter
+import com.github.danzx.xof.core.util.Pagination
+import com.github.danzx.xof.core.util.SortSpec
 
 data class PostsLoaderCommand(
     val filter: PostsFilter = PostsFilter(),

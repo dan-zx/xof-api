@@ -1,6 +1,5 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
-import com.github.danzx.xof.common.sort.dsl.sortBy
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postsWith
 import com.github.danzx.xof.core.filter.dsl.userId
@@ -14,6 +13,7 @@ import com.github.danzx.xof.core.usecase.user.DeleteUserByIdUseCase
 import com.github.danzx.xof.core.usecase.user.GetUserByIdUseCase
 import com.github.danzx.xof.core.usecase.user.GetUserByUsernameUseCase
 import com.github.danzx.xof.core.usecase.user.ReplaceUserUseCase
+import com.github.danzx.xof.core.util.dsl.sortBy
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest

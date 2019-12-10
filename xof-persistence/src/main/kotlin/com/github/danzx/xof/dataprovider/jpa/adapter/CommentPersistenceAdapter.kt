@@ -1,7 +1,5 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter
 
-import com.github.danzx.xof.common.pagination.Pagination
-import com.github.danzx.xof.common.sort.SortSpec
 import com.github.danzx.xof.core.dataprovider.CommentByIdLoader
 import com.github.danzx.xof.core.dataprovider.CommentByIdRemover
 import com.github.danzx.xof.core.dataprovider.CommentIdChecker
@@ -10,6 +8,8 @@ import com.github.danzx.xof.core.dataprovider.CommentUpdater
 import com.github.danzx.xof.core.dataprovider.PaginatedCommentsLoader
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.filter.CommentsFilter
+import com.github.danzx.xof.core.util.Pagination
+import com.github.danzx.xof.core.util.SortSpec
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toComment
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toCommentJpaEntity
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toDomainPage

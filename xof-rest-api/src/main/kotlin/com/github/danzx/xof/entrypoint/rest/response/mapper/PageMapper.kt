@@ -1,6 +1,6 @@
 package com.github.danzx.xof.entrypoint.rest.response.mapper
 
-import com.github.danzx.xof.common.pagination.Page
+import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.entrypoint.rest.response.PageResponse
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder

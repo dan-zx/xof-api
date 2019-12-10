@@ -1,4 +1,4 @@
-package com.github.danzx.xof.common.pagination
+package com.github.danzx.xof.core.util
 
 data class Page<T> (
     val data: Collection<T> = emptyList(),

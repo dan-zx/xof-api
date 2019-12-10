@@ -1,8 +1,8 @@
 package com.github.danzx.xof.core.dataprovider
 
-import com.github.danzx.xof.common.pagination.Page
-import com.github.danzx.xof.common.pagination.Pagination
-import com.github.danzx.xof.common.sort.SortSpec
+import com.github.danzx.xof.core.util.Page
+import com.github.danzx.xof.core.util.Pagination
+import com.github.danzx.xof.core.util.SortSpec
 
 interface DataByIdLoader<ID, T> {
     fun loadById(id: ID) : T?

@@ -1,9 +1,5 @@
 package com.github.danzx.xof.core.usecase.post
 
-import com.github.danzx.xof.common.pagination.Page
-import com.github.danzx.xof.common.pagination.dsl.page
-import com.github.danzx.xof.common.pagination.dsl.paginationWith
-import com.github.danzx.xof.common.sort.dsl.sortBy
 import com.github.danzx.xof.core.dataprovider.PaginatedPostsLoader
 import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.domain.SimpleUser
@@ -11,6 +7,10 @@ import com.github.danzx.xof.core.filter.dsl.postsWith
 import com.github.danzx.xof.core.filter.dsl.title
 import com.github.danzx.xof.core.filter.dsl.userId
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
+import com.github.danzx.xof.core.util.Page
+import com.github.danzx.xof.core.util.dsl.page
+import com.github.danzx.xof.core.util.dsl.paginationWith
+import com.github.danzx.xof.core.util.dsl.sortBy
 
 import io.kotlintest.shouldBe
 

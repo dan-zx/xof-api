@@ -13,7 +13,6 @@ bootJar {
 }
 
 dependencies {
-    implementation project(':xof-common')
     implementation project(':xof-core')
     implementation project(':xof-persistence')
     implementation project(':xof-rest-api')

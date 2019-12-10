@@ -1,6 +1,5 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
-import com.github.danzx.xof.common.sort.dsl.sortBy
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postId
 import com.github.danzx.xof.core.filter.dsl.postsWith
@@ -18,6 +17,7 @@ import com.github.danzx.xof.core.usecase.post.VoteOnPostUseCase
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostContentCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostTitleCommand
+import com.github.danzx.xof.core.util.dsl.sortBy
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest

@@ -1,4 +1,4 @@
-package com.github.danzx.xof.common.pagination
+package com.github.danzx.xof.core.util
 
 data class Pagination(
     val size: Int = DEFAULT_PAGE_SIZE,

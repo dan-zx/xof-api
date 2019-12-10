@@ -1,4 +1,3 @@
 dependencies {
-    api project(':xof-common')
     api "javax.inject:javax.inject:$javaxInjectVersion"
 }

@@ -1,7 +1,5 @@
 package com.github.danzx.xof.dataprovider.jpa.adapter
 
-import com.github.danzx.xof.common.pagination.Pagination
-import com.github.danzx.xof.common.sort.SortSpec
 import com.github.danzx.xof.core.dataprovider.PaginatedPostsLoader
 import com.github.danzx.xof.core.dataprovider.PostByIdLoader
 import com.github.danzx.xof.core.dataprovider.PostByIdRemover
@@ -10,6 +8,8 @@ import com.github.danzx.xof.core.dataprovider.PostPersister
 import com.github.danzx.xof.core.dataprovider.PostUpdater
 import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.filter.PostsFilter
+import com.github.danzx.xof.core.util.Pagination
+import com.github.danzx.xof.core.util.SortSpec
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toDomainPage
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toPost
 import com.github.danzx.xof.dataprovider.jpa.adapter.mapper.toPostJpaEntity

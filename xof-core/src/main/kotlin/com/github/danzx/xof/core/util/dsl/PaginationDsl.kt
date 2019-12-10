@@ -1,6 +1,6 @@
-package com.github.danzx.xof.common.pagination.dsl
+package com.github.danzx.xof.core.util.dsl
 
-import com.github.danzx.xof.common.pagination.Pagination
+import com.github.danzx.xof.core.util.Pagination
 
 object page
 

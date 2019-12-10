@@ -1,4 +1,4 @@
-package com.github.danzx.xof.common.sort
+package com.github.danzx.xof.core.util
 
 data class SortSpec(
     val property: String,

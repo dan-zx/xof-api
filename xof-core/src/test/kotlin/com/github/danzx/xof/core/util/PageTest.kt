@@ -1,4 +1,4 @@
-package com.github.danzx.xof.common.pagination
+package com.github.danzx.xof.core.util
 
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe

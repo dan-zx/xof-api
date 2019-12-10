@@ -1,8 +1,8 @@
-package com.github.danzx.xof.common.sort.dsl
+package com.github.danzx.xof.core.util.dsl
 
-import com.github.danzx.xof.common.sort.SortSpec
-import com.github.danzx.xof.common.sort.SortSpec.Direction.ASC
-import com.github.danzx.xof.common.sort.SortSpec.Direction.DESC
+import com.github.danzx.xof.core.util.SortSpec
+import com.github.danzx.xof.core.util.SortSpec.Direction.ASC
+import com.github.danzx.xof.core.util.SortSpec.Direction.DESC
 
 import io.kotlintest.matchers.collections.shouldContainInOrder
 import io.kotlintest.matchers.collections.shouldHaveSize
