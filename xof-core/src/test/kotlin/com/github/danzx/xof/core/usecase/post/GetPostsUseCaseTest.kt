@@ -1,11 +1,10 @@
 package com.github.danzx.xof.core.usecase.post
 
 import com.github.danzx.xof.core.dataprovider.PaginatedPostsLoader
-import com.github.danzx.xof.core.domain.Post
-import com.github.danzx.xof.core.domain.SimpleUser
 import com.github.danzx.xof.core.filter.dsl.postsWith
 import com.github.danzx.xof.core.filter.dsl.title
 import com.github.danzx.xof.core.filter.dsl.userId
+import com.github.danzx.xof.core.test.constants.TEST_POST
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
 import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.page
@@ -22,8 +21,6 @@ import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import java.time.LocalDateTime.of
-
 @ExtendWith(MockKExtension::class)
 class GetPostsUseCaseTest {
 
@@ -33,18 +30,7 @@ class GetPostsUseCaseTest {
     @Test
     fun `should get posts when no exceptions happen`() {
         val expected = Page(
-            data = listOf(Post(
-                id = 1,
-                title = "Title",
-                content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                created = of(2019, 12, 6, 12, 0, 0),
-                updated = of(2019, 12, 6, 12, 0, 0),
-                votes = 0,
-                user = SimpleUser(
-                    id = 1,
-                    username = "username"
-                )
-            )),
+            data = listOf(TEST_POST.copy()),
             metadata = Page.Metadata(
                 total = 1,
                 count = 1,

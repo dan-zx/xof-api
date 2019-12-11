@@ -1,8 +1,8 @@
 package com.github.danzx.xof.core.usecase.user
 
 import com.github.danzx.xof.core.dataprovider.UserByIdLoader
-import com.github.danzx.xof.core.domain.User
 import com.github.danzx.xof.core.exception.UserNotFoundException
+import com.github.danzx.xof.core.test.constants.TEST_USER
 
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
@@ -15,8 +15,6 @@ import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import java.time.LocalDateTime.of
-
 @ExtendWith(MockKExtension::class)
 class GetUserByIdUseCaseTest {
 
@@ -25,14 +23,7 @@ class GetUserByIdUseCaseTest {
 
     @Test
     fun `should get user by id when loader finds a matching user with the given id`() {
-        val expected = User(
-            id = 1,
-            name = "User",
-            lastName = "UserLastName",
-            username = "UserUsername",
-            avatarImageUrl = "http://userimage.jpg",
-            join = of(2019, 12, 6, 12, 0, 0)
-        )
+        val expected = TEST_USER.copy()
         every { loader.loadById(expected.id) } returns expected
         val actual = useCase(expected.id)
 

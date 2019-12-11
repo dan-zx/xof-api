@@ -2,6 +2,7 @@ package com.github.danzx.xof.core.usecase.user
 
 import com.github.danzx.xof.core.dataprovider.UserIdChecker
 import com.github.danzx.xof.core.exception.UserNotFoundException
+import com.github.danzx.xof.core.test.constants.TEST_USER
 
 import io.kotlintest.fail
 import io.kotlintest.shouldThrow
@@ -22,15 +23,15 @@ class ValidateUserIdExistsUseCaseTest {
 
     @Test
     fun `should throw UserNotFoundException when user id doesn't exist`() {
-        every { checker.existsId(any()) } returns false
-        shouldThrow<UserNotFoundException> { useCase(1) }
+        every { checker.existsId(TEST_USER.id) } returns false
+        shouldThrow<UserNotFoundException> { useCase(TEST_USER.id) }
     }
 
     @Test
     fun `should not throw any exception when user id exists`() {
         every { checker.existsId(any()) } returns true
         try {
-            useCase(1)
+            useCase(TEST_USER.id)
         } catch (ex: Exception) {
             fail("No exceptions allowed here")
         }

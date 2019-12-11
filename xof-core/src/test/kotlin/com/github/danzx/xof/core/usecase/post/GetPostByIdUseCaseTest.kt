@@ -1,9 +1,8 @@
 package com.github.danzx.xof.core.usecase.post
 
 import com.github.danzx.xof.core.dataprovider.PostByIdLoader
-import com.github.danzx.xof.core.domain.Post
-import com.github.danzx.xof.core.domain.SimpleUser
 import com.github.danzx.xof.core.exception.PostNotFoundException
+import com.github.danzx.xof.core.test.constants.TEST_POST
 
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
@@ -16,8 +15,6 @@ import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import java.time.LocalDateTime.of
-
 @ExtendWith(MockKExtension::class)
 class GetPostByIdUseCaseTest {
 
@@ -26,19 +23,7 @@ class GetPostByIdUseCaseTest {
 
     @Test
     fun `should get post by id when loader finds a matching post with the given id`() {
-        val createdDate = of(2019, 12, 6, 12, 0, 0)
-        val expected = Post(
-            id = 1,
-            title = "Title",
-            content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            created = createdDate,
-            updated = createdDate,
-            votes = 0,
-            user = SimpleUser(
-                id = 1,
-                username = "username"
-            )
-        )
+        val expected = TEST_POST.copy()
         every { loader.loadById(expected.id) } returns expected
         val actual = useCase(expected.id)
 

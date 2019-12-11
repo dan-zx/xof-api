@@ -2,12 +2,13 @@ package com.github.danzx.xof.core.usecase.post
 
 import com.github.danzx.xof.core.dataprovider.PostVotePersister
 import com.github.danzx.xof.core.domain.Vote
+import com.github.danzx.xof.core.test.constants.TEST_POST
 import com.github.danzx.xof.core.usecase.user.ValidateUserIdExistsUseCase
 
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.verify
+import io.mockk.verifyOrder
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -23,14 +24,16 @@ class VoteOnPostUseCaseTest {
     @Test
     fun `should save or update the post votes when no exceptions happen`() {
         val command = Vote(
-            entityId = 1,
-            userId = 2,
+            entityId = TEST_POST.id,
+            userId = TEST_POST.user.id,
             direction = Vote.Direction.UP
         )
         useCase(command)
 
-        verify { validatePostIdExistsUseCase(command.entityId) }
-        verify { validateUserIdExistsUseCase(command.userId) }
-        verify { postVotePersister.saveOrUpdate(command) }
+        verifyOrder {
+            validatePostIdExistsUseCase(command.entityId)
+            validateUserIdExistsUseCase(command.userId)
+            postVotePersister.saveOrUpdate(command)
+        }
     }
 }

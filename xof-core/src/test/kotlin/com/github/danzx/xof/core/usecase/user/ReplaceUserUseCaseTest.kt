@@ -1,11 +1,12 @@
 package com.github.danzx.xof.core.usecase.user
 
 import com.github.danzx.xof.core.dataprovider.UserUpdater
-import com.github.danzx.xof.core.domain.User
+import com.github.danzx.xof.core.test.constants.TEST_USER
 import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 
 import io.kotlintest.shouldBe
 
+import io.mockk.called
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -18,8 +19,6 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.extension.ExtendWith
 
-import java.time.LocalDateTime.of
-
 @ExtendWith(MockKExtension::class)
 class ReplaceUserUseCaseTest {
 
@@ -28,48 +27,48 @@ class ReplaceUserUseCaseTest {
     @RelaxedMockK lateinit var validateUsernameDoesNotExistUseCase: ValidateUsernameDoesNotExistUseCase
     @InjectMockKs lateinit var useCase: ReplaceUserUseCase
 
-    private val testUser = User(
-        id = 1,
-        name = "User",
-        lastName = "UserLastName",
-        username = "UserUsername",
-        avatarImageUrl = "http://userimage.jpg",
-        join = of(2019, 12, 6, 12, 0, 0)
-    )
-
     @BeforeEach
     fun onBeforeTest() {
         every { updater.update(any()) } returnsArgument 0
-        every { getUserByIdUseCase(any()) } returns testUser
+        every { getUserByIdUseCase(TEST_USER.id) } returns TEST_USER.copy()
     }
 
     @Test
     fun `should replace user when user was found and username is the same as the old one`() {
         val command = ReplaceUserCommand(
-            id = 1,
+            id = TEST_USER.id,
             name = "User",
             lastName = "UserLastName",
-            username = "UserUsername",
+            username = TEST_USER.username,
             avatarImageUrl = "http://userimage.jpg"
         )
-        val expected = testUser.copy()
+        val expected = TEST_USER.copy(
+            name = command.name,
+            lastName = command.lastName,
+            username = command.username,
+            avatarImageUrl = command.avatarImageUrl
+        )
         val actual = useCase(command)
 
-        verify(exactly = 0) { validateUsernameDoesNotExistUseCase(any()) }
+        verify { validateUsernameDoesNotExistUseCase wasNot called }
         actual shouldBe expected
     }
 
     @Test
     fun `should replace user when user was found and username doesn't exist`() {
         val command = ReplaceUserCommand(
-            id = 1,
+            id = TEST_USER.id,
             name = "User",
             lastName = "UserLastName",
-            username = "otherUsername",
+            username = "New User Username",
             avatarImageUrl = "http://userimage.jpg"
         )
-
-        val expected = testUser.copy(username = command.username)
+        val expected = TEST_USER.copy(
+            name = command.name,
+            lastName = command.lastName,
+            username = command.username,
+            avatarImageUrl = command.avatarImageUrl
+        )
         val actual = useCase(command)
 
         verify { validateUsernameDoesNotExistUseCase(command.username) }

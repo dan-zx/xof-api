@@ -1,8 +1,8 @@
 package com.github.danzx.xof.core.usecase.post
 
 import com.github.danzx.xof.core.dataprovider.PostPersister
-import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.domain.SimpleUser
+import com.github.danzx.xof.core.test.constants.TEST_POST
 import com.github.danzx.xof.core.usecase.post.command.CreateNewPostCommand
 import com.github.danzx.xof.core.usecase.user.ValidateUserIdExistsUseCase
 
@@ -18,8 +18,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import java.time.LocalDateTime.of
-
 @ExtendWith(MockKExtension::class)
 class CreateNewPostUseCaseTest {
 
@@ -29,32 +27,20 @@ class CreateNewPostUseCaseTest {
 
     @Test
     fun `should persist post when no exceptions happen`() {
-        val createdDate = of(2019, 12, 6, 12, 0, 0)
         val command = CreateNewPostCommand(
             title = "Title",
             content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             userId = 1
         )
-        val expected = Post(
-            id = 1,
+        val expected = TEST_POST.copy(
             title = command.title,
             content = command.content,
-            created = createdDate,
-            updated = createdDate,
-            votes = 0,
             user = SimpleUser(
                 id = command.userId,
-                username = "username"
+                username = TEST_POST.user.username
             )
         )
-        every { persister.save(any()) } answers {
-            firstArg<Post>().apply {
-                id = expected.id
-                created = createdDate
-                updated = createdDate
-                user.username = expected.user.username
-            }
-        }
+        every { persister.save(any()) } returns expected
 
         val actual = useCase(command)
 

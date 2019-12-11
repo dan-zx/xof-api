@@ -1,11 +1,12 @@
 package com.github.danzx.xof.core.usecase.post
 
 import com.github.danzx.xof.core.dataprovider.PostByIdRemover
+import com.github.danzx.xof.core.test.constants.TEST_POST
 
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.verify
+import io.mockk.verifyOrder
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,10 +20,12 @@ class DeletePostByIdUseCaseTest {
 
     @Test
     fun `should remove post by id when no exceptions happen`() {
-        val id = 1L
+        val id = TEST_POST.id
         useCase(id)
 
-        verify { validatePostIdExistsUseCase(id) }
-        verify { remover.removeById(id) }
+        verifyOrder {
+            validatePostIdExistsUseCase(id)
+            remover.removeById(id)
+        }
     }
 }

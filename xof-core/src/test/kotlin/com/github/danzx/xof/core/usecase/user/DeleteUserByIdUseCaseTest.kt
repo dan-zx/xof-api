@@ -1,11 +1,12 @@
 package com.github.danzx.xof.core.usecase.user
 
 import com.github.danzx.xof.core.dataprovider.UserByIdRemover
+import com.github.danzx.xof.core.test.constants.TEST_USER
 
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.verify
+import io.mockk.verifyOrder
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,10 +20,12 @@ class DeleteUserByIdUseCaseTest {
 
     @Test
     fun `should remove user by id when no exceptions happen`() {
-        val id = 1L
+        val id = TEST_USER.id
         useCase(id)
 
-        verify { validateUserIdExistsUseCase(id) }
-        verify { remover.removeById(id) }
+        verifyOrder {
+            validateUserIdExistsUseCase(id)
+            remover.removeById(id)
+        }
     }
 }

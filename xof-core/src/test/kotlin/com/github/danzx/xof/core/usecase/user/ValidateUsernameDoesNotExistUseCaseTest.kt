@@ -2,6 +2,7 @@ package com.github.danzx.xof.core.usecase.user
 
 import com.github.danzx.xof.core.dataprovider.UserUsernameChecker
 import com.github.danzx.xof.core.exception.UsernameAlreadyExistsException
+import com.github.danzx.xof.core.test.constants.TEST_USER
 
 import io.kotlintest.fail
 import io.kotlintest.shouldThrow
@@ -22,15 +23,15 @@ class ValidateUsernameDoesNotExistUseCaseTest {
 
     @Test
     fun `should throw UsernameAlreadyExistsException when username already exists`() {
-        every { checker.existsUsername(any()) } returns true
-        shouldThrow<UsernameAlreadyExistsException> { useCase("user") }
+        every { checker.existsUsername(TEST_USER.username) } returns true
+        shouldThrow<UsernameAlreadyExistsException> { useCase(TEST_USER.username) }
     }
 
     @Test
     fun `should not throw any exception when username already doesn't exist`() {
         every { checker.existsUsername(any()) } returns false
         try {
-            useCase("user")
+            useCase(TEST_USER.username)
         } catch (ex: Exception) {
             fail("No exceptions allowed here")
         }

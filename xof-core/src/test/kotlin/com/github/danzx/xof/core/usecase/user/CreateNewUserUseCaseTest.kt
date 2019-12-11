@@ -1,7 +1,7 @@
 package com.github.danzx.xof.core.usecase.user
 
 import com.github.danzx.xof.core.dataprovider.UserPersister
-import com.github.danzx.xof.core.domain.User
+import com.github.danzx.xof.core.test.constants.TEST_USER
 import com.github.danzx.xof.core.usecase.user.command.CreateNewUserCommand
 
 import io.kotlintest.shouldBe
@@ -15,8 +15,6 @@ import io.mockk.verify
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
-import java.time.LocalDateTime.of
 
 @ExtendWith(MockKExtension::class)
 class CreateNewUserUseCaseTest {
@@ -33,20 +31,13 @@ class CreateNewUserUseCaseTest {
             username = "UserUsername",
             avatarImageUrl = "http://userimage.jpg"
         )
-        val expected = User(
-            id = 1,
+        val expected = TEST_USER.copy(
             name = command.name,
             lastName = command.lastName,
             username = command.username,
-            avatarImageUrl = command.avatarImageUrl,
-            join = of(2019, 12, 6, 12, 0, 0)
+            avatarImageUrl = command.avatarImageUrl
         )
-        every { persister.save(any()) } answers {
-            firstArg<User>().apply {
-                id = expected.id
-                join = expected.join
-            }
-        }
+        every { persister.save(any()) } returns expected
         val actual = useCase(command)
 
         verify { validateUsernameDoesNotExistUseCase(command.username) }
