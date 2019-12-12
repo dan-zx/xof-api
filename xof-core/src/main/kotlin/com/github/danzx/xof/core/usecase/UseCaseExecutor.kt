@@ -1,6 +1,6 @@
 package com.github.danzx.xof.core.usecase
 
-interface UseCaseExecutor {
+open class UseCaseExecutor {
     operator fun <Command, Response, ResponseDto> invoke(
         useCase: UseCase<Command, Response>,
         command: Command,

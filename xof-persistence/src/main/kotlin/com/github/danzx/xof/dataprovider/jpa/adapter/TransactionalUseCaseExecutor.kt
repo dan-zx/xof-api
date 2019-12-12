@@ -7,4 +7,4 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @Transactional
-class TransactionalUseCaseExecutor : UseCaseExecutor
+class TransactionalUseCaseExecutor : UseCaseExecutor()
