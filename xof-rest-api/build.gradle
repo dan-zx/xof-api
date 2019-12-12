@@ -5,9 +5,8 @@ dependencies {
     api "io.springfox:springfox-bean-validators:$springfoxSwaggerVersion"
     api "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
 
-    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-    implementation "org.springframework:spring-core:$springFrameworkVersion"
-    implementation "org.springframework:spring-tx:$springFrameworkVersion"
-    implementation "org.springframework:spring-web:$springFrameworkVersion"
-    implementation "org.springframework:spring-webmvc:$springFrameworkVersion"
+    api "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+
+    testImplementation "com.ninja-squad:springmockk:$springMockkVersion"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 }

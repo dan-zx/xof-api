@@ -1,6 +1,7 @@
 package com.github.danzx.xof.entrypoint.rest.response.mapper
 
 import com.github.danzx.xof.core.util.Page
+import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.response.PageResponse
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -17,17 +18,16 @@ fun <T> Page<T>.toPageResponse() = PageResponse(
 )
 
 private fun <T> Page<T>.buildLinks(): PageResponse.Links {
-    val selfUrl = buildLinkUrlForPage(metadata.number, metadata.count)
-    val previousUrl = hasPrevious.then { buildLinkUrlForPage(metadata.number - 1, metadata.count) }
-    val nextUrl = hasNext.then { buildLinkUrlForPage(metadata.number + 1, metadata.count) }
+    val selfUrl = buildLinkUrlForPage(metadata.number)
+    val previousUrl = hasPrevious.then { buildLinkUrlForPage(metadata.number - 1) }
+    val nextUrl = hasNext.then { buildLinkUrlForPage(metadata.number + 1) }
     return PageResponse.Links(previousUrl, selfUrl, nextUrl)
 }
 
-private fun buildLinkUrlForPage(pageNumber: Int, pageSize: Int) =
+private fun buildLinkUrlForPage(pageNumber: Int) =
     ServletUriComponentsBuilder
         .fromCurrentRequest()
-        .replaceQueryParam("page", pageNumber)
-        .replaceQueryParam("size", pageSize)
+        .replaceQueryParam(PaginationRequest.PAGE, pageNumber)
         .build()
         .toUriString()
 

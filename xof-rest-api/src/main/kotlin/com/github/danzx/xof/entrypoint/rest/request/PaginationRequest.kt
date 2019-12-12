@@ -7,4 +7,10 @@ data class PaginationRequest(
     var page: Int? = null,
 
     @field:Min(1)
-    var size: Int? = null)
+    var size: Int? = null) {
+
+    companion object ParameterNames {
+        const val PAGE = "page"
+        const val SIZE = "size"
+    }
+}

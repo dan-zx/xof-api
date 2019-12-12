@@ -48,6 +48,6 @@ fun CreateCommentRequest.toCreateNewCommentCommand() = CreateNewCommentCommand(
 )
 
 fun PaginationRequest.toPagination() = Pagination(
-    page,
-    size
+    size,
+    page
 )

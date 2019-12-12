@@ -42,6 +42,7 @@ subprojects {
         springDataJpaVersion = '2.1.12.RELEASE'
         springFrameworkVersion = '5.1.11.RELEASE'
         springfoxSwaggerVersion = '2.9.2'
+        springMockkVersion = '1.1.3'
     }
 
     dependencies {
