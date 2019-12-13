@@ -19,7 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 @WebMvcTest(CommentRestController::class)
 abstract class CommentRestControllerBaseTest : SpringRestControllerTest() {
 
-    protected val basePath = "/comments"
+    protected val basePath = "/api/comments"
 
     @MockkBean(name="createNewCommentUseCase")
     lateinit var createNewCommentUseCase: UseCase<CreateNewCommentCommand, Comment>

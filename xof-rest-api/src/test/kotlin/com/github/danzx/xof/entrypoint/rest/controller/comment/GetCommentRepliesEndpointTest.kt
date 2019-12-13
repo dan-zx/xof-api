@@ -35,7 +35,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         val pageSize = 10
         val selfLink = UriComponentsBuilder
             .fromHttpUrl(servletUri)
-            .pathSegment("comments", id.toString(), "replies")
+            .pathSegment("api", "comments", id.toString(), "replies")
             .queryParam(PaginationRequest.PAGE, page)
             // WebMvcTest is not consistent with real application when using ServletUriComponentsBuilder.fromCurrentRequest()
             //.queryParam(PaginationRequest.SIZE, pageSize)

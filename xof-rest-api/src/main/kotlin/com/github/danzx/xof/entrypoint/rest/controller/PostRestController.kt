@@ -48,7 +48,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 @Api(tags=["Posts API"], description="Post endpoints")
 class PostRestController : BaseRestController() {
 

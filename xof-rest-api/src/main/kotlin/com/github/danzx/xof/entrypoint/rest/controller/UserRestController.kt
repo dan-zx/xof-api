@@ -45,7 +45,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @Api(tags=["Users API"], description="User endpoints")
 class UserRestController : BaseRestController() {
 

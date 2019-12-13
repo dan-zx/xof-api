@@ -41,7 +41,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 @Api(tags=["Comments API"], description="Comment endpoints")
 class CommentRestController : BaseRestController() {
 
