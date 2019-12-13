@@ -1,18 +1,17 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
+import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.domain.Post
+import com.github.danzx.xof.core.domain.User
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postsWith
 import com.github.danzx.xof.core.filter.dsl.userId
-import com.github.danzx.xof.core.usecase.UseCaseExecutor
-import com.github.danzx.xof.core.usecase.comment.GetCommentsUseCase
+import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.comment.command.CommentsLoaderCommand
-import com.github.danzx.xof.core.usecase.post.GetPostsUseCase
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
-import com.github.danzx.xof.core.usecase.user.CreateNewUserUseCase
-import com.github.danzx.xof.core.usecase.user.DeleteUserByIdUseCase
-import com.github.danzx.xof.core.usecase.user.GetUserByIdUseCase
-import com.github.danzx.xof.core.usecase.user.GetUserByUsernameUseCase
-import com.github.danzx.xof.core.usecase.user.ReplaceUserUseCase
+import com.github.danzx.xof.core.usecase.user.command.CreateNewUserCommand
+import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
+import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.sortBy
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
@@ -30,7 +29,7 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.validation.annotation.Validated
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -45,20 +44,31 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 
-@Validated
 @RestController
 @RequestMapping("/users")
 @Api(tags=["Users API"], description="User endpoints")
-class UserRestController {
+class UserRestController : BaseRestController() {
 
-    @Autowired lateinit var createNewUserUseCase: CreateNewUserUseCase
-    @Autowired lateinit var getUserByIdUseCase: GetUserByIdUseCase
-    @Autowired lateinit var getUserByUsernameUseCase: GetUserByUsernameUseCase
-    @Autowired lateinit var replaceUserUseCase: ReplaceUserUseCase
-    @Autowired lateinit var deleteUserByIdUseCase: DeleteUserByIdUseCase
-    @Autowired lateinit var getPostsUseCase: GetPostsUseCase
-    @Autowired lateinit var getCommentsUseCase: GetCommentsUseCase
-    @Autowired lateinit var useCaseExecutor: UseCaseExecutor
+    @Autowired @Qualifier("createNewUserUseCase")
+    lateinit var createNewUserUseCase: UseCase<CreateNewUserCommand, User>
+
+    @Autowired @Qualifier("getUserByIdUseCase")
+    lateinit var getUserByIdUseCase: UseCase<Long, User>
+
+    @Autowired @Qualifier("getUserByUsernameUseCase")
+    lateinit var getUserByUsernameUseCase: UseCase<String, User>
+
+    @Autowired @Qualifier("replaceUserUseCase")
+    lateinit var replaceUserUseCase: UseCase<ReplaceUserCommand, User>
+
+    @Autowired @Qualifier("deleteUserByIdUseCase")
+    lateinit var deleteUserByIdUseCase: UseCase<Long, Unit>
+
+    @Autowired @Qualifier("getPostsUseCase")
+    lateinit var getPostsUseCase: UseCase<PostsLoaderCommand, Page<Post>>
+
+    @Autowired @Qualifier("getCommentsUseCase")
+    lateinit var getCommentsUseCase: UseCase<CommentsLoaderCommand, Page<Comment>>
 
     @GetMapping
     @ApiOperation("Get user")

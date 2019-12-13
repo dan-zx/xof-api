@@ -1,22 +1,19 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
+import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.domain.Post
+import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postId
 import com.github.danzx.xof.core.filter.dsl.postsWith
 import com.github.danzx.xof.core.filter.dsl.title
-import com.github.danzx.xof.core.usecase.UseCaseExecutor
-import com.github.danzx.xof.core.usecase.comment.GetCommentsUseCase
+import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.comment.command.CommentsLoaderCommand
-import com.github.danzx.xof.core.usecase.post.CreateNewPostUseCase
-import com.github.danzx.xof.core.usecase.post.DeletePostByIdUseCase
-import com.github.danzx.xof.core.usecase.post.GetPostByIdUseCase
-import com.github.danzx.xof.core.usecase.post.GetPostsUseCase
-import com.github.danzx.xof.core.usecase.post.ReplacePostContentUseCase
-import com.github.danzx.xof.core.usecase.post.ReplacePostTitleUseCase
-import com.github.danzx.xof.core.usecase.post.VoteOnPostUseCase
+import com.github.danzx.xof.core.usecase.post.command.CreateNewPostCommand
 import com.github.danzx.xof.core.usecase.post.command.PostsLoaderCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostContentCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostTitleCommand
+import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.sortBy
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
@@ -27,8 +24,8 @@ import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewPostComman
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
-import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
+import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -36,7 +33,7 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.validation.annotation.Validated
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -50,21 +47,34 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 import javax.validation.constraints.Min
 
-@Validated
 @RestController
 @RequestMapping("/posts")
 @Api(tags=["Posts API"], description="Post endpoints")
-class PostRestController {
+class PostRestController : BaseRestController() {
 
-    @Autowired lateinit var createNewPostUseCase: CreateNewPostUseCase
-    @Autowired lateinit var getPostByIdUseCase: GetPostByIdUseCase
-    @Autowired lateinit var getPostsUseCase: GetPostsUseCase
-    @Autowired lateinit var replacePostTitleUseCase: ReplacePostTitleUseCase
-    @Autowired lateinit var replacePostContentUseCase: ReplacePostContentUseCase
-    @Autowired lateinit var voteOnPostUseCase: VoteOnPostUseCase
-    @Autowired lateinit var deletePostByIdUseCase: DeletePostByIdUseCase
-    @Autowired lateinit var getCommentsUseCase: GetCommentsUseCase
-    @Autowired lateinit var useCaseExecutor: UseCaseExecutor
+    @Autowired @Qualifier("createNewPostUseCase")
+    lateinit var createNewPostUseCase: UseCase<CreateNewPostCommand, Post>
+
+    @Autowired @Qualifier("getPostByIdUseCase")
+    lateinit var getPostByIdUseCase: UseCase<Long, Post>
+
+    @Autowired @Qualifier("getPostsUseCase")
+    lateinit var getPostsUseCase: UseCase<PostsLoaderCommand, Page<Post>>
+
+    @Autowired @Qualifier("replacePostTitleUseCase")
+    lateinit var replacePostTitleUseCase: UseCase<ReplacePostTitleCommand, Post>
+
+    @Autowired @Qualifier("replacePostContentUseCase")
+    lateinit var replacePostContentUseCase: UseCase<ReplacePostContentCommand, Post>
+
+    @Autowired @Qualifier("voteOnPostUseCase")
+    lateinit var voteOnPostUseCase: UseCase<Vote, Unit>
+
+    @Autowired @Qualifier("deletePostByIdUseCase")
+    lateinit var deletePostByIdUseCase: UseCase<Long, Unit>
+
+    @Autowired @Qualifier("getCommentsUseCase")
+    lateinit var getCommentsUseCase: UseCase<CommentsLoaderCommand, Page<Comment>>
 
     @GetMapping("/{id}")
     @ApiOperation("Get post by id")

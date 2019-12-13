@@ -1,16 +1,14 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
+import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.parentId
-import com.github.danzx.xof.core.usecase.UseCaseExecutor
-import com.github.danzx.xof.core.usecase.comment.CreateNewCommentUseCase
-import com.github.danzx.xof.core.usecase.comment.DeleteCommentByIdUseCase
-import com.github.danzx.xof.core.usecase.comment.GetCommentByIdUseCase
-import com.github.danzx.xof.core.usecase.comment.GetCommentsUseCase
-import com.github.danzx.xof.core.usecase.comment.ReplaceCommentContentUseCase
-import com.github.danzx.xof.core.usecase.comment.VoteOnCommentUseCase
+import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.comment.command.CommentsLoaderCommand
+import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
 import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
+import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.sortBy
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreateCommentRequest
@@ -29,7 +27,7 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.validation.annotation.Validated
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -42,19 +40,28 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 import javax.validation.constraints.Min
 
-@Validated
 @RestController
 @RequestMapping("/comments")
 @Api(tags=["Comments API"], description="Comment endpoints")
-class CommentRestController {
+class CommentRestController : BaseRestController() {
 
-    @Autowired lateinit var createNewCommentUseCase: CreateNewCommentUseCase
-    @Autowired lateinit var getCommentByIdUseCase: GetCommentByIdUseCase
-    @Autowired lateinit var getCommentsUseCase: GetCommentsUseCase
-    @Autowired lateinit var replaceCommentContentUseCase: ReplaceCommentContentUseCase
-    @Autowired lateinit var voteOnCommentUseCase: VoteOnCommentUseCase
-    @Autowired lateinit var deleteCommentByIdUseCase: DeleteCommentByIdUseCase
-    @Autowired lateinit var useCaseExecutor: UseCaseExecutor
+    @Autowired @Qualifier("createNewCommentUseCase")
+    lateinit var createNewCommentUseCase: UseCase<CreateNewCommentCommand, Comment>
+
+    @Autowired @Qualifier("getCommentByIdUseCase")
+    lateinit var getCommentByIdUseCase: UseCase<Long, Comment>
+
+    @Autowired @Qualifier("getCommentsUseCase")
+    lateinit var getCommentsUseCase: UseCase<CommentsLoaderCommand, Page<Comment>>
+
+    @Autowired @Qualifier("replaceCommentContentUseCase")
+    lateinit var replaceCommentContentUseCase: UseCase<ReplaceCommentContentCommand, Comment>
+
+    @Autowired @Qualifier("voteOnCommentUseCase")
+    lateinit var voteOnCommentUseCase: UseCase<Vote, Unit>
+
+    @Autowired @Qualifier("deleteCommentByIdUseCase")
+    lateinit var deleteCommentByIdUseCase: UseCase<Long, Unit>
 
     @GetMapping("/{id}")
     @ApiOperation("Get comment by id")

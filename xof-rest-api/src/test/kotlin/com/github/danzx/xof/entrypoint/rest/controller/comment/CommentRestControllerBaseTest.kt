@@ -1,12 +1,13 @@
 package com.github.danzx.xof.entrypoint.rest.controller.comment
 
+import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.domain.Vote
+import com.github.danzx.xof.core.usecase.UseCase
 import com.github.danzx.xof.core.usecase.UseCaseExecutor
-import com.github.danzx.xof.core.usecase.comment.CreateNewCommentUseCase
-import com.github.danzx.xof.core.usecase.comment.DeleteCommentByIdUseCase
-import com.github.danzx.xof.core.usecase.comment.GetCommentByIdUseCase
-import com.github.danzx.xof.core.usecase.comment.GetCommentsUseCase
-import com.github.danzx.xof.core.usecase.comment.ReplaceCommentContentUseCase
-import com.github.danzx.xof.core.usecase.comment.VoteOnCommentUseCase
+import com.github.danzx.xof.core.usecase.comment.command.CommentsLoaderCommand
+import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
+import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
+import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.entrypoint.rest.controller.CommentRestController
 import com.github.danzx.xof.entrypoint.rest.controller.SpringRestControllerTest
 
@@ -20,11 +21,23 @@ abstract class CommentRestControllerBaseTest : SpringRestControllerTest() {
 
     protected val basePath = "/comments"
 
-    @MockkBean protected lateinit var createNewCommentUseCase: CreateNewCommentUseCase
-    @MockkBean protected lateinit var getCommentByIdUseCase: GetCommentByIdUseCase
-    @MockkBean protected lateinit var getCommentsUseCase: GetCommentsUseCase
-    @MockkBean protected lateinit var replaceCommentContentUseCase: ReplaceCommentContentUseCase
-    @MockkBean protected lateinit var voteOnCommentUseCase: VoteOnCommentUseCase
-    @MockkBean protected lateinit var deleteCommentByIdUseCase: DeleteCommentByIdUseCase
-    @SpykBean  protected lateinit var useCaseExecutor: UseCaseExecutor
+    @MockkBean(name="createNewCommentUseCase")
+    lateinit var createNewCommentUseCase: UseCase<CreateNewCommentCommand, Comment>
+
+    @MockkBean(name="getCommentByIdUseCase")
+    lateinit var getCommentByIdUseCase: UseCase<Long, Comment>
+
+    @MockkBean(name="getCommentsUseCase")
+    lateinit var getCommentsUseCase: UseCase<CommentsLoaderCommand, Page<Comment>>
+
+    @MockkBean(name="replaceCommentContentUseCase")
+    lateinit var replaceCommentContentUseCase: UseCase<ReplaceCommentContentCommand, Comment>
+
+    @MockkBean(name="voteOnCommentUseCase")
+    lateinit var voteOnCommentUseCase: UseCase<Vote, Unit>
+
+    @MockkBean(name="deleteCommentByIdUseCase")
+    lateinit var deleteCommentByIdUseCase: UseCase<Long, Unit>
+
+    @SpykBean protected lateinit var useCaseExecutor: UseCaseExecutor
 }
