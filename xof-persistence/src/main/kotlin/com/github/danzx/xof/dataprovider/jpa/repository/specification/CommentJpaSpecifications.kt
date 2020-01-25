@@ -4,7 +4,7 @@ import com.github.danzx.xof.dataprovider.jpa.entity.CommentJpaEntity
 
 import org.springframework.data.jpa.domain.Specification
 
-object CommentJpaSpecifications {
+object CommentJpaSpecifications : JpaEntitySpecifications<CommentJpaEntity> {
 
     fun userIdEquals(userId: Long): Specification<CommentJpaEntity> {
         return Specification { root, _, cb -> cb.equal(root.get<String>("user").get<String>("id"), userId) }
