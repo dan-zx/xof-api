@@ -1,7 +1,5 @@
 package com.github.danzx.xof.entrypoint.rest.controller.comment
 
-import com.fasterxml.jackson.module.kotlin.readValue
-
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
@@ -64,7 +62,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             )
         )
 
-        val json = mvc.perform(
+        val actual = mvc.perform(
             get("$basePath/$id/replies")
                 .accept(APPLICATION_JSON)
                 .param(PaginationRequest.PAGE, page.toString())
@@ -75,8 +73,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             .andReturn()
             .response
             .contentAsString
-
-        val actual: PageResponse<Comment> = jsonMapper.readValue(json)
+            .parseAs<PageResponse<Comment>>()
 
         actual shouldBe expected
     }
@@ -93,14 +90,13 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             timestamp = now()
         )
 
-        val json = mvc.perform(get("$basePath/$id/replies").accept(APPLICATION_JSON))
+        val actual = mvc.perform(get("$basePath/$id/replies").accept(APPLICATION_JSON))
             .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
             .andReturn()
             .response
             .contentAsString
-
-        val actual : ErrorResponse = jsonMapper.readValue(json)
+            .parseAs<ErrorResponse>()
 
         verifyErrorResponse(actual, expected)
     }
@@ -122,7 +118,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             timestamp = now()
         )
 
-        val json = mvc.perform(
+        val actual = mvc.perform(
             get("$basePath/$id/replies")
                 .accept(APPLICATION_JSON)
                 .param(PaginationRequest.PAGE, page.toString())
@@ -133,8 +129,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             .andReturn()
             .response
             .contentAsString
-
-        val actual : ErrorResponse = jsonMapper.readValue(json)
+            .parseAs<ErrorResponse>()
 
         verifyErrorResponse(actual, expected)
     }

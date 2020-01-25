@@ -1,6 +1,7 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 
 import com.github.danzx.xof.entrypoint.rest.response.ErrorResponse
 
@@ -39,5 +40,9 @@ abstract class SpringRestControllerTest {
             val request = mvc.perform(get("/")).andReturn().request
             return "${request.scheme}://${request.serverName}"
         }
+
+    protected inline fun <reified T> String.parseAs() = jsonMapper.readValue<T>(this)
+
+    protected fun <T: Any> T.toJson() = jsonMapper.writeValueAsString(this)
 }
 
