@@ -14,36 +14,36 @@ import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 
 fun CreateUserRequest.toCreateNewUserCommand() = CreateNewUserCommand(
-    name = name,
-    lastName = lastName,
-    username = username,
-    avatarImageUrl = avatarImageUrl
+    name = name!!,
+    lastName = lastName!!,
+    username = username!!,
+    avatarImageUrl = avatarImageUrl!!
 )
 
 fun ReplaceUserRequest.toReplaceUserCommand(id: Long) = ReplaceUserCommand(
     id = id,
-    name = name,
-    lastName = lastName,
-    username = username,
-    avatarImageUrl = avatarImageUrl
+    name = name!!,
+    lastName = lastName!!,
+    username = username!!,
+    avatarImageUrl = avatarImageUrl!!
 )
 
 fun CreatePostRequest.toCreateNewPostCommand() = CreateNewPostCommand(
-    title = title,
-    content = content,
-    userId = userId
+    title = title!!,
+    content = content!!,
+    userId = userId!!
 )
 
 fun VoteRequest.toVote(entityId: Long) = Vote(
     entityId = entityId,
-    userId = userId,
-    direction = direction
+    userId = userId!!,
+    direction = direction!!
 )
 
 fun CreateCommentRequest.toCreateNewCommentCommand() = CreateNewCommentCommand(
-    content = content,
-    userId = userId,
-    postId = postId,
+    content = content!!,
+    userId = userId!!,
+    postId = postId!!,
     parentId = parentId
 )
 

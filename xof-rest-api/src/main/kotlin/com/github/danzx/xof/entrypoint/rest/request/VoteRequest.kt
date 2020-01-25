@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull
 
 data class VoteRequest(
     @field:NotNull
-    var direction: Vote.Direction,
+    var direction: Vote.Direction? = null,
 
     @field:NotNull
     @field:Min(1)
-    var userId: Long)
+    var userId: Long? = null)

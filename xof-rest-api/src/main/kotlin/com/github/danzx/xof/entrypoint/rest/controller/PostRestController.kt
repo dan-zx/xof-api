@@ -153,7 +153,7 @@ class PostRestController : BaseRestController() {
         @RequestBody @Valid request: TitleUpdateRequest) =
         useCaseExecutor(
             useCase = replacePostTitleUseCase,
-            command = ReplacePostTitleCommand(id, request.value)
+            command = ReplacePostTitleCommand(id, request.value!!)
         )
 
     @PutMapping("/{id}/content")
@@ -168,7 +168,7 @@ class PostRestController : BaseRestController() {
         @RequestBody @Valid request: ContentUpdateRequest) =
         useCaseExecutor(
             useCase = replacePostContentUseCase,
-            command = ReplacePostContentCommand(id, request.value)
+            command = ReplacePostContentCommand(id, request.value!!)
         )
 
     @PutMapping("/{id}/vote")

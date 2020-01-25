@@ -4,4 +4,4 @@ import javax.validation.constraints.NotBlank
 
 data class NonBlankStringValue(
     @field:NotBlank
-    var value: String)
+    var value: String? = null)

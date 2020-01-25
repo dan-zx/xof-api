@@ -6,15 +6,15 @@ import javax.validation.constraints.NotNull
 
 data class CreateCommentRequest(
     @field:NotBlank
-    var content: String,
+    var content: String? = null,
 
     @field:NotNull
     @field:Min(1)
-    var userId: Long,
+    var userId: Long? = null,
 
     @field:NotNull
     @field:Min(1)
-    var postId: Long,
+    var postId: Long? = null,
 
     @field:Min(1)
     var parentId: Long? = null)

@@ -5,14 +5,14 @@ import javax.validation.constraints.NotBlank
 
 data class CreateUserRequest(
     @field:NotBlank
-    var name: String,
+    var name: String? = null,
 
     @field:NotBlank
-    var lastName: String,
+    var lastName: String? = null,
 
     @field:NotBlank
-    var username: String,
+    var username: String? = null,
 
     @field:NotBlank
     @field:URL
-    var avatarImageUrl: String)
+    var avatarImageUrl: String? = null)

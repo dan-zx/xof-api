@@ -6,11 +6,11 @@ import javax.validation.constraints.NotNull
 
 data class CreatePostRequest(
     @field:NotBlank
-    var title: String,
+    var title: String? = null,
 
     @field:NotBlank
-    var content: String,
+    var content: String? = null,
 
     @field:NotNull
     @field:Min(1)
-    var userId: Long)
+    var userId: Long? = null)

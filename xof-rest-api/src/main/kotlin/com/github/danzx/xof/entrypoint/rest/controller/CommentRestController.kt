@@ -121,7 +121,7 @@ class CommentRestController : BaseRestController() {
         @RequestBody @Valid request: ContentUpdateRequest) =
         useCaseExecutor(
             useCase = replaceCommentContentUseCase,
-            command = ReplaceCommentContentCommand(id, request.value)
+            command = ReplaceCommentContentCommand(id, request.value!!)
         )
 
     @PutMapping("/{id}/vote")
