@@ -12,6 +12,9 @@ import io.kotlintest.shouldBe
 import io.mockk.every
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.ValueSource
 
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
@@ -66,8 +69,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             get("$basePath/$id/replies")
                 .accept(APPLICATION_JSON)
                 .param(PaginationRequest.PAGE, page.toString())
-                .param(PaginationRequest.SIZE, pageSize.toString())
-             )
+                .param(PaginationRequest.SIZE, pageSize.toString()))
             .andExpect(status().isOk)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
             .andReturn()
@@ -78,19 +80,19 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         actual shouldBe expected
     }
 
-    @Test
-    fun `should get comment replies return 400 (Bad Request) when comment id is invalid`() {
-        val id = -1
+    @ParameterizedTest
+    @ValueSource(longs = [-1L, 0L])
+    fun `should get comment replies return 400 (Bad Request) when comment id is invalid`(invalidId: Long) {
         val expected = ErrorResponse(
             error = HttpStatus.BAD_REQUEST.reasonPhrase,
             status = HttpStatus.BAD_REQUEST.value(),
             message = "Validation failed",
             fieldErrors = mapOf("id" to "must be greater than or equal to 1"),
-            path = "$basePath/$id/replies",
+            path = "$basePath/$invalidId/replies",
             timestamp = now()
         )
 
-        val actual = mvc.perform(get("$basePath/$id/replies").accept(APPLICATION_JSON))
+        val actual = mvc.perform(get("$basePath/$invalidId/replies").accept(APPLICATION_JSON))
             .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
             .andReturn()
@@ -101,11 +103,10 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         verifyErrorResponse(actual, expected)
     }
 
-    @Test
-    fun `should get comment replies return 400 (Bad Request) when pagination parameters are invalid`() {
+    @ParameterizedTest
+    @CsvSource("0,0", "0,-1", "-1,0", "-1,-1")
+    fun `should get comment replies return 400 (Bad Request) when pagination parameters are invalid`(invalidPage: Int, invalidPageSize: Int) {
         val id = TEST_COMMENT.id
-        val page = -1
-        val pageSize = -1
         val expected = ErrorResponse(
             error = HttpStatus.BAD_REQUEST.reasonPhrase,
             status = HttpStatus.BAD_REQUEST.value(),
@@ -121,8 +122,8 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         val actual = mvc.perform(
             get("$basePath/$id/replies")
                 .accept(APPLICATION_JSON)
-                .param(PaginationRequest.PAGE, page.toString())
-                .param(PaginationRequest.SIZE, pageSize.toString())
+                .param(PaginationRequest.PAGE, invalidPage.toString())
+                .param(PaginationRequest.SIZE, invalidPageSize.toString())
              )
             .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))

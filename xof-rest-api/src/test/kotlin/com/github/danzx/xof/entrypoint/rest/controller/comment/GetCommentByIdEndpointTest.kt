@@ -10,6 +10,8 @@ import io.kotlintest.shouldBe
 import io.mockk.every
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
@@ -26,10 +28,10 @@ class GetCommentByIdEndpointTest : CommentRestControllerBaseTest() {
     @Test
     fun `should get comment by id returns 200 (OK) when use case finds the comment matching the given id`() {
         val id = TEST_COMMENT.id
-        every { getCommentByIdUseCase(id) } returns TEST_COMMENT.copy()
+        val expected = TEST_COMMENT.copy()
+        every { getCommentByIdUseCase(id) } returns expected
 
-        val actual = mvc.perform(
-            get("$basePath/$id").accept(APPLICATION_JSON))
+        val actual = mvc.perform(get("$basePath/$id").accept(APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
             .andReturn()
@@ -37,7 +39,30 @@ class GetCommentByIdEndpointTest : CommentRestControllerBaseTest() {
             .contentAsString
             .parseAs<Comment>()
 
-        actual shouldBe TEST_COMMENT
+        actual shouldBe expected
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = [-1L, 0L])
+    fun `should get comment by id returns 400 (Bad Request) when comment id is invalid`(invalidId: Long) {
+        val expected = ErrorResponse(
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            status = HttpStatus.BAD_REQUEST.value(),
+            message = "Validation failed",
+            fieldErrors = mapOf("id" to "must be greater than or equal to 1"),
+            path = "$basePath/$invalidId",
+            timestamp = now()
+        )
+
+        val actual = mvc.perform(get("$basePath/$invalidId").accept(APPLICATION_JSON))
+            .andExpect(status().isBadRequest)
+            .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
+            .andReturn()
+            .response
+            .contentAsString
+            .parseAs<ErrorResponse>()
+
+        verifyErrorResponse(actual, expected)
     }
 
     @Test
@@ -52,33 +77,8 @@ class GetCommentByIdEndpointTest : CommentRestControllerBaseTest() {
             timestamp = now()
         )
 
-        val actual = mvc.perform(
-            get("$basePath/$id").accept(APPLICATION_JSON))
+        val actual = mvc.perform(get("$basePath/$id").accept(APPLICATION_JSON))
             .andExpect(status().isNotFound)
-            .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
-            .andReturn()
-            .response
-            .contentAsString
-            .parseAs<ErrorResponse>()
-
-        verifyErrorResponse(actual, expected)
-    }
-
-    @Test
-    fun `should get comment by id returns 400 (Bad Request) when comment id is invalid`() {
-        val id = -1
-        val expected = ErrorResponse(
-            error = HttpStatus.BAD_REQUEST.reasonPhrase,
-            status = HttpStatus.BAD_REQUEST.value(),
-            message = "Validation failed",
-            fieldErrors = mapOf("id" to "must be greater than or equal to 1"),
-            path = "$basePath/$id",
-            timestamp = now()
-        )
-
-        val actual = mvc.perform(
-            get("$basePath/$id").accept(APPLICATION_JSON))
-            .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
             .andReturn()
             .response

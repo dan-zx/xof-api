@@ -1,6 +1,10 @@
 package com.github.danzx.xof.entrypoint.rest.controller.comment
 
 import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.domain.SimpleUser
+import com.github.danzx.xof.core.domain.Usernames
+import com.github.danzx.xof.core.exception.PostNotFoundException
+import com.github.danzx.xof.core.exception.UserNotFoundException
 import com.github.danzx.xof.entrypoint.rest.request.CreateCommentRequest
 import com.github.danzx.xof.entrypoint.rest.response.ErrorResponse
 import com.github.danzx.xof.entrypoint.rest.test.TEST_COMMENT
@@ -10,6 +14,9 @@ import io.kotlintest.shouldBe
 import io.mockk.every
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
@@ -20,26 +27,26 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 import java.nio.charset.StandardCharsets.UTF_8
-import java.time.LocalDateTime
+import java.time.LocalDateTime.now
+import java.util.stream.Stream
 
 class CreateCommentEndpointTest : CommentRestControllerBaseTest() {
 
     @Test
-    fun `should create comment return 201 (Created) and a new comment when request is valid`() {
-        every { createNewCommentUseCase(any()) } returns TEST_COMMENT.copy()
+    fun `should create comment return 201 (Created) and a new comment when payload is valid`() {
+        val expected = TEST_COMMENT.copy(
+            content = VALID_REQUEST.content!!,
+            user = SimpleUser(id = VALID_REQUEST.userId!!, username = Usernames.NOT_AVAILABLE),
+            postId = VALID_REQUEST.postId!!,
+            parentId = VALID_REQUEST.parentId)
 
-        val request = CreateCommentRequest(
-            content = TEST_COMMENT.content,
-            userId = TEST_COMMENT.user.id,
-            postId = TEST_COMMENT.postId,
-            parentId = TEST_COMMENT.parentId
-        )
+        every { createNewCommentUseCase(any()) } returns expected
 
         val actual = mvc.perform(
             post(basePath)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
-                .content(request.toJson())
+                .content(VALID_REQUEST.toJson())
                 .characterEncoding(UTF_8.toString()))
             .andExpect(status().isCreated)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
@@ -48,18 +55,12 @@ class CreateCommentEndpointTest : CommentRestControllerBaseTest() {
             .contentAsString
             .parseAs<Comment>()
 
-        actual shouldBe TEST_COMMENT
+        actual shouldBe expected
     }
 
-    @Test
-    fun `should create comment return 400 (Bad Request) when request is not valid`() {
-        val request = CreateCommentRequest(
-            content = "",
-            userId = null,
-            postId = null,
-            parentId = -1
-        )
-
+    @ParameterizedTest
+    @MethodSource("invalidCreateRequestsProvider")
+    fun `should create comment return 400 (Bad Request) when payload is not valid`(invalidRequest: CreateCommentRequest) {
         val expected = ErrorResponse(
             error = HttpStatus.BAD_REQUEST.reasonPhrase,
             status = HttpStatus.BAD_REQUEST.value(),
@@ -71,14 +72,14 @@ class CreateCommentEndpointTest : CommentRestControllerBaseTest() {
                 "parentId" to "must be greater than or equal to 1"
             ),
             path = basePath,
-            timestamp = LocalDateTime.now()
+            timestamp = now()
         )
 
         val actual = mvc.perform(
             post(basePath)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
-                .content(request.toJson())
+                .content(invalidRequest.toJson())
                 .characterEncoding(UTF_8.toString()))
             .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
@@ -88,5 +89,67 @@ class CreateCommentEndpointTest : CommentRestControllerBaseTest() {
             .parseAs<ErrorResponse>()
 
         verifyErrorResponse(actual, expected)
+    }
+
+    @ParameterizedTest
+    @MethodSource("notFoundExceptionsProvider")
+    fun `should create comment return 404 (Not Found) when payload is valid and either post does not exist or user does not exist`(exceptionThrown: Exception, expectedMessage: String) {
+        val expected = ErrorResponse(
+            error = HttpStatus.NOT_FOUND.reasonPhrase,
+            status = HttpStatus.NOT_FOUND.value(),
+            message = expectedMessage,
+            path = basePath,
+            timestamp = now()
+        )
+
+        every { createNewCommentUseCase(any()) } throws exceptionThrown
+
+        val actual = mvc.perform(
+            post(basePath)
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .characterEncoding(UTF_8.toString())
+                .content(VALID_REQUEST.toJson()))
+            .andExpect(status().isNotFound)
+            .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
+            .andReturn()
+            .response
+            .contentAsString
+            .parseAs<ErrorResponse>()
+
+        verifyErrorResponse(actual, expected)
+    }
+
+    companion object ArgumentsProviders {
+
+        private val VALID_REQUEST = CreateCommentRequest(
+            content = TEST_COMMENT.content,
+            userId = TEST_COMMENT.user.id,
+            postId = TEST_COMMENT.postId,
+            parentId = TEST_COMMENT.parentId
+        )
+
+        @JvmStatic
+        fun invalidCreateRequestsProvider() =
+            Stream.of(
+                CreateCommentRequest(
+                    content = null,
+                    userId = null,
+                    postId = null,
+                    parentId = -1),
+                CreateCommentRequest(
+                    content = "",
+                    userId = null,
+                    postId = null,
+                    parentId = 0)
+            )
+
+        @JvmStatic
+        fun notFoundExceptionsProvider() =
+            Stream.of(
+                arguments(UserNotFoundException(), "User not found"),
+                arguments(PostNotFoundException(), "Post not found")
+            )
+
     }
 }
