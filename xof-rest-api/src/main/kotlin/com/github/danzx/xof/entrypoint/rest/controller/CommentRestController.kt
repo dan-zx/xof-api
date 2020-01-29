@@ -16,6 +16,7 @@ import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewCommentCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
+import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceCommentContentCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -109,7 +111,7 @@ class CommentRestController : BaseRestController() {
             responseConverter = { it.toCreatedResponseEntity() }
         )
 
-    @PutMapping("/{id}/content")
+    @PatchMapping("/{id}/content")
     @ApiOperation("Replace comment content")
     @ApiResponses(
         ApiResponse(code = 200, message = "OK - Content replaced"),
@@ -121,7 +123,7 @@ class CommentRestController : BaseRestController() {
         @RequestBody @Valid request: ContentUpdateRequest) =
         useCaseExecutor(
             useCase = replaceCommentContentUseCase,
-            command = ReplaceCommentContentCommand(id, request.value!!)
+            command = request.toReplaceCommentContentCommand(id)
         )
 
     @PutMapping("/{id}/vote")
