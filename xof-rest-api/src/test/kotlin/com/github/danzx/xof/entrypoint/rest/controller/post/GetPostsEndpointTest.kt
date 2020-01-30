@@ -1,11 +1,11 @@
-package com.github.danzx.xof.entrypoint.rest.controller.comment
+package com.github.danzx.xof.entrypoint.rest.controller.post
 
-import com.github.danzx.xof.core.domain.Comment
+import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.response.ErrorResponse
 import com.github.danzx.xof.entrypoint.rest.response.PageResponse
-import com.github.danzx.xof.entrypoint.rest.test.TEST_COMMENT
+import com.github.danzx.xof.entrypoint.rest.test.TEST_POST
 import com.github.danzx.xof.entrypoint.rest.test.VALIDATION_ERROR
 
 import io.kotlintest.shouldBe
@@ -15,7 +15,6 @@ import io.mockk.every
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
 
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -25,22 +24,22 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.util.UriComponentsBuilder
 
-class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
+class GetPostsEndpointTest : PostRestControllerBaseTest() {
 
     @Test
-    fun `should get comment replies return 200 (OK) when no errors happen`() {
+    fun `should get posts return 200 (Ok) when no errors happen`() {
         val page = 1
         val pageSize = 10
         val selfLink = UriComponentsBuilder
             .fromHttpUrl(servletUri)
-            .path(VALID_REQUEST_PATH)
+            .path(BASE_PATH)
             .queryParam(PaginationRequest.PAGE, page)
             // WebMvcTest is not consistent with real application when using ServletUriComponentsBuilder.fromCurrentRequest()
             //.queryParam(PaginationRequest.SIZE, pageSize)
             .toUriString()
 
         val expected = PageResponse(
-            data = listOf(TEST_COMMENT.copy()),
+            data = listOf(TEST_POST.copy()),
             links = PageResponse.Links(
                 self = selfLink
             ),
@@ -52,7 +51,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             )
         )
 
-        every { getCommentsUseCase(any()) } returns Page(
+        every { getPostsUseCase(any()) } returns Page(
             data = expected.data,
             metadata = Page.Metadata(
                 total = expected.metadata.total,
@@ -63,7 +62,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         )
 
         val actual = mvc.perform(
-            get(VALID_REQUEST_PATH)
+            get(BASE_PATH)
                 .accept(APPLICATION_JSON)
                 .param(PaginationRequest.PAGE, page.toString())
                 .param(PaginationRequest.SIZE, pageSize.toString()))
@@ -72,36 +71,16 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
             .andReturn()
             .response
             .contentAsString
-            .parseAs<PageResponse<Comment>>()
-
-        actual shouldBe expected
-    }
-
-    @ParameterizedTest
-    @ValueSource(longs = [-1L, 0L])
-    fun `should get comment replies return 400 (Bad Request) when comment id is invalid`(invalidId: Long) {
-        val requestPath = "$BASE_PATH/$invalidId/replies"
-        val expected = VALIDATION_ERROR.copy(
-            fieldErrors = mapOf("id" to "must be greater than or equal to 1"),
-            path = requestPath
-        )
-
-        val actual = mvc.perform(get(requestPath).accept(APPLICATION_JSON))
-            .andExpect(status().isBadRequest)
-            .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-            .andReturn()
-            .response
-            .contentAsString
-            .parseAs<ErrorResponse>()
+            .parseAs<PageResponse<Post>>()
 
         actual shouldBe expected
     }
 
     @ParameterizedTest
     @CsvSource("0,0", "0,-1", "-1,0", "-1,-1")
-    fun `should get comment replies return 400 (Bad Request) when pagination parameters are invalid`(invalidPage: Int, invalidPageSize: Int) {
+    fun `should get posts return 400 (Bad Request) when pagination parameters are invalid`(invalidPage: Int, invalidPageSize: Int) {
         val expected = VALIDATION_ERROR.copy(
-            path = VALID_REQUEST_PATH,
+            path = BASE_PATH,
             fieldErrors = mapOf(
                 PaginationRequest.PAGE to "must be greater than or equal to 1",
                 PaginationRequest.SIZE to "must be greater than or equal to 1"
@@ -109,11 +88,10 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         )
 
         val actual = mvc.perform(
-            get(VALID_REQUEST_PATH)
+            get(BASE_PATH)
                 .accept(APPLICATION_JSON)
                 .param(PaginationRequest.PAGE, invalidPage.toString())
-                .param(PaginationRequest.SIZE, invalidPageSize.toString())
-             )
+                .param(PaginationRequest.SIZE, invalidPageSize.toString()))
             .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
             .andReturn()
@@ -124,7 +102,24 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
         actual shouldBe expected
     }
 
-    companion object {
-        private val VALID_REQUEST_PATH = "$BASE_PATH/${TEST_COMMENT.id}/replies"
+    @Test
+    fun `should get posts return 400 (Bad Request) when q parameter is invalid`() {
+        val expected = VALIDATION_ERROR.copy(
+            fieldErrors = mapOf("q" to "must not be blank"),
+            path = BASE_PATH
+        )
+
+        val actual = mvc.perform(
+            get(BASE_PATH)
+                .accept(APPLICATION_JSON)
+                .param("q", ""))
+            .andExpect(status().isBadRequest)
+            .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+            .andReturn()
+            .response
+            .contentAsString
+            .parseAs<ErrorResponse>()
+
+        actual shouldBe expected
     }
 }

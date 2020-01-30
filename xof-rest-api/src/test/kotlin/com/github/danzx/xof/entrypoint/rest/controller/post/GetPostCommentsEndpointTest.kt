@@ -1,4 +1,4 @@
-package com.github.danzx.xof.entrypoint.rest.controller.comment
+package com.github.danzx.xof.entrypoint.rest.controller.post
 
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.util.Page
@@ -6,6 +6,7 @@ import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.response.ErrorResponse
 import com.github.danzx.xof.entrypoint.rest.response.PageResponse
 import com.github.danzx.xof.entrypoint.rest.test.TEST_COMMENT
+import com.github.danzx.xof.entrypoint.rest.test.TEST_POST
 import com.github.danzx.xof.entrypoint.rest.test.VALIDATION_ERROR
 
 import io.kotlintest.shouldBe
@@ -25,10 +26,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.util.UriComponentsBuilder
 
-class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
+class GetPostCommentsEndpointTest : PostRestControllerBaseTest() {
 
     @Test
-    fun `should get comment replies return 200 (OK) when no errors happen`() {
+    fun `should get post comments return 200 (Ok) when no errors happen`() {
         val page = 1
         val pageSize = 10
         val selfLink = UriComponentsBuilder
@@ -79,8 +80,8 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
 
     @ParameterizedTest
     @ValueSource(longs = [-1L, 0L])
-    fun `should get comment replies return 400 (Bad Request) when comment id is invalid`(invalidId: Long) {
-        val requestPath = "$BASE_PATH/$invalidId/replies"
+    fun `should get post comments return 400 (Bad Request) when post id is invalid`(invalidId: Long) {
+        val requestPath = "$BASE_PATH/$invalidId/comments"
         val expected = VALIDATION_ERROR.copy(
             fieldErrors = mapOf("id" to "must be greater than or equal to 1"),
             path = requestPath
@@ -99,7 +100,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
 
     @ParameterizedTest
     @CsvSource("0,0", "0,-1", "-1,0", "-1,-1")
-    fun `should get comment replies return 400 (Bad Request) when pagination parameters are invalid`(invalidPage: Int, invalidPageSize: Int) {
+    fun `should get post comments return 400 (Bad Request) when pagination parameters are invalid`(invalidPage: Int, invalidPageSize: Int) {
         val expected = VALIDATION_ERROR.copy(
             path = VALID_REQUEST_PATH,
             fieldErrors = mapOf(
@@ -113,7 +114,7 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
                 .accept(APPLICATION_JSON)
                 .param(PaginationRequest.PAGE, invalidPage.toString())
                 .param(PaginationRequest.SIZE, invalidPageSize.toString())
-             )
+        )
             .andExpect(status().isBadRequest)
             .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
             .andReturn()
@@ -125,6 +126,6 @@ class GetCommentRepliesEndpointTest : CommentRestControllerBaseTest() {
     }
 
     companion object {
-        private val VALID_REQUEST_PATH = "$BASE_PATH/${TEST_COMMENT.id}/replies"
+        private val VALID_REQUEST_PATH = "$BASE_PATH/${TEST_POST.id}/comments"
     }
 }

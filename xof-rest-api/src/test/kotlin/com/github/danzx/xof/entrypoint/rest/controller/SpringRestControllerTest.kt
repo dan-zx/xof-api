@@ -24,17 +24,6 @@ abstract class SpringRestControllerTest {
     @Autowired protected lateinit var mvc: MockMvc
     @Autowired protected lateinit var jsonMapper: ObjectMapper
 
-    protected fun verifyErrorResponse(actual: ErrorResponse, expected: ErrorResponse) {
-        actual should {
-            it.error shouldBe expected.error
-            it.status shouldBe expected.status
-            it.message shouldBe expected.message
-            it.fieldErrors shouldBe expected.fieldErrors
-            it.path shouldBe expected.path
-            it.timestamp should beInToday()
-        }
-    }
-
     protected val servletUri: String
         get() {
             val request = mvc.perform(get("/")).andReturn().request
@@ -44,5 +33,16 @@ abstract class SpringRestControllerTest {
     protected inline fun <reified T> String.parseAs() = jsonMapper.readValue<T>(this)
 
     protected fun <T: Any> T.toJson() = jsonMapper.writeValueAsString(this)
+
+    protected infix fun ErrorResponse.shouldBe(expected: ErrorResponse) {
+        this should {
+            it.error shouldBe expected.error
+            it.status shouldBe expected.status
+            it.message shouldBe expected.message
+            it.fieldErrors shouldBe expected.fieldErrors
+            it.path shouldBe expected.path
+            it.timestamp should beInToday()
+        }
+    }
 }
 

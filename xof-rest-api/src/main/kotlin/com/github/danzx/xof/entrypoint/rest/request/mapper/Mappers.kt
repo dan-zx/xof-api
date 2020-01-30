@@ -1,6 +1,5 @@
 package com.github.danzx.xof.entrypoint.rest.request.mapper
 
-import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
 import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
 import com.github.danzx.xof.core.usecase.post.command.CreateNewPostCommand
@@ -13,7 +12,6 @@ import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
-import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 
 fun CreateUserRequest.toCreateNewUserCommand() = CreateNewUserCommand(
     name = name!!,
@@ -34,12 +32,6 @@ fun CreatePostRequest.toCreateNewPostCommand() = CreateNewPostCommand(
     title = title!!,
     content = content!!,
     userId = userId!!
-)
-
-fun VoteRequest.toVote(entityId: Long) = Vote(
-    entityId = entityId,
-    userId = userId!!,
-    direction = direction!!
 )
 
 fun CreateCommentRequest.toCreateNewCommentCommand() = CreateNewCommentCommand(

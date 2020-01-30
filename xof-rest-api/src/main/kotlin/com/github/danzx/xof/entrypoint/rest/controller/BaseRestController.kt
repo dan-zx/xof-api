@@ -9,4 +9,8 @@ import org.springframework.validation.annotation.Validated
 abstract class BaseRestController {
 
     @Autowired lateinit var useCaseExecutor: UseCaseExecutor
+
+    companion object {
+        const val BASE_PATH = "/api/v1"
+    }
 }

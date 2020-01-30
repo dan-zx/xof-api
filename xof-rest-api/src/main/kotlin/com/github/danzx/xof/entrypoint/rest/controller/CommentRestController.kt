@@ -1,7 +1,6 @@
 package com.github.danzx.xof.entrypoint.rest.controller
 
 import com.github.danzx.xof.core.domain.Comment
-import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.parentId
 import com.github.danzx.xof.core.usecase.UseCase
@@ -10,14 +9,13 @@ import com.github.danzx.xof.core.usecase.comment.command.CreateNewCommentCommand
 import com.github.danzx.xof.core.usecase.comment.command.ReplaceCommentContentCommand
 import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.sortBy
+import com.github.danzx.xof.entrypoint.rest.controller.BaseRestController.Companion.BASE_PATH
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreateCommentRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
-import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewCommentCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceCommentContentCommand
-import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
@@ -34,7 +32,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -43,7 +40,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("$BASE_PATH/comments")
 @Api(tags=["Comments API"], description="Comment endpoints")
 class CommentRestController : BaseRestController() {
 
@@ -58,9 +55,6 @@ class CommentRestController : BaseRestController() {
 
     @Autowired @Qualifier("replaceCommentContentUseCase")
     lateinit var replaceCommentContentUseCase: UseCase<ReplaceCommentContentCommand, Comment>
-
-    @Autowired @Qualifier("voteOnCommentUseCase")
-    lateinit var voteOnCommentUseCase: UseCase<Vote, Unit>
 
     @Autowired @Qualifier("deleteCommentByIdUseCase")
     lateinit var deleteCommentByIdUseCase: UseCase<Long, Unit>
@@ -124,22 +118,6 @@ class CommentRestController : BaseRestController() {
         useCaseExecutor(
             useCase = replaceCommentContentUseCase,
             command = request.toReplaceCommentContentCommand(id)
-        )
-
-    @PutMapping("/{id}/vote")
-    @ApiOperation("Apply votes to comment")
-    @ApiResponses(
-        ApiResponse(code = 204, message = "No Content - Vote applied"),
-        ApiResponse(code = 400, message = "Bad request - The supplied payload is invalid or the supplied id is 0 or less"),
-        ApiResponse(code = 404, message = "Not Found - When either the user or the comment where not found")
-    )
-    fun vote(
-        @PathVariable @Min(1) id: Long,
-        @RequestBody @Valid request: VoteRequest) =
-        useCaseExecutor(
-            useCase = voteOnCommentUseCase,
-            command = request.toVote(id),
-            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 
     @DeleteMapping("/{id}")

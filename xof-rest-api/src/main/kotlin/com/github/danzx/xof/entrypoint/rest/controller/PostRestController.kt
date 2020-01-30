@@ -2,7 +2,6 @@ package com.github.danzx.xof.entrypoint.rest.controller
 
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.domain.Post
-import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postId
 import com.github.danzx.xof.core.filter.dsl.postsWith
@@ -15,14 +14,14 @@ import com.github.danzx.xof.core.usecase.post.command.ReplacePostContentCommand
 import com.github.danzx.xof.core.usecase.post.command.ReplacePostTitleCommand
 import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.sortBy
+import com.github.danzx.xof.entrypoint.rest.constraint.NullOrNotBlank
+import com.github.danzx.xof.entrypoint.rest.controller.BaseRestController.Companion.BASE_PATH
 import com.github.danzx.xof.entrypoint.rest.request.ContentUpdateRequest
 import com.github.danzx.xof.entrypoint.rest.request.CreatePostRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.TitleUpdateRequest
-import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewPostCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
-import com.github.danzx.xof.entrypoint.rest.request.mapper.toVote
 import com.github.danzx.xof.entrypoint.rest.response.ResponseEntities
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toCreatedResponseEntity
 import com.github.danzx.xof.entrypoint.rest.response.mapper.toPageResponse
@@ -36,9 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -48,7 +47,7 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("$BASE_PATH/posts")
 @Api(tags=["Posts API"], description="Post endpoints")
 class PostRestController : BaseRestController() {
 
@@ -66,9 +65,6 @@ class PostRestController : BaseRestController() {
 
     @Autowired @Qualifier("replacePostContentUseCase")
     lateinit var replacePostContentUseCase: UseCase<ReplacePostContentCommand, Post>
-
-    @Autowired @Qualifier("voteOnPostUseCase")
-    lateinit var voteOnPostUseCase: UseCase<Vote, Unit>
 
     @Autowired @Qualifier("deletePostByIdUseCase")
     lateinit var deletePostByIdUseCase: UseCase<Long, Unit>
@@ -96,12 +92,12 @@ class PostRestController : BaseRestController() {
         ApiResponse(code=400, message="Bad request - When the supplied parameters are invalid")
     )
     fun getFilteredWithPagination(
-        @RequestParam("q", required=false) titleQuery: String?,
+        @RequestParam("q", required=false) @NullOrNotBlank q: String?,
         @Valid paginationRequest: PaginationRequest) =
         useCaseExecutor(
             useCase = getPostsUseCase,
             command = PostsLoaderCommand(
-                postsWith { title containing titleQuery },
+                postsWith { title containing q },
                 paginationRequest.toPagination(),
                 sortBy { +"created" }
             ),
@@ -141,7 +137,7 @@ class PostRestController : BaseRestController() {
             responseConverter = { it.toCreatedResponseEntity() }
         )
 
-    @PutMapping("/{id}/title")
+    @PatchMapping("/{id}/title")
     @ApiOperation("Replace post title")
     @ApiResponses(
         ApiResponse(code=200, message="OK - title replaced"),
@@ -156,7 +152,7 @@ class PostRestController : BaseRestController() {
             command = ReplacePostTitleCommand(id, request.value!!)
         )
 
-    @PutMapping("/{id}/content")
+    @PatchMapping("/{id}/content")
     @ApiOperation("Replace post content")
     @ApiResponses(
         ApiResponse(code=200, message="OK - content replaced"),
@@ -169,22 +165,6 @@ class PostRestController : BaseRestController() {
         useCaseExecutor(
             useCase = replacePostContentUseCase,
             command = ReplacePostContentCommand(id, request.value!!)
-        )
-
-    @PutMapping("/{id}/vote")
-    @ApiOperation("Apply votes to posts")
-    @ApiResponses(
-        ApiResponse(code=204, message="No Content - Vote applied"),
-        ApiResponse(code=400, message="Bad request - The supplied payload is invalid or the supplied id is 0 or less"),
-        ApiResponse(code=404, message="Not Found - When either the user or the post where not found")
-    )
-    fun vote(
-        @PathVariable @Min(1) id: Long,
-        @RequestBody @Valid request: VoteRequest) =
-        useCaseExecutor(
-            useCase = voteOnPostUseCase,
-            command = request.toVote(id),
-            responseConverter = { ResponseEntities.NO_CONTENT }
         )
 
     @DeleteMapping("/{id}")

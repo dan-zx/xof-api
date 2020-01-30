@@ -3,6 +3,7 @@ package com.github.danzx.xof.entrypoint.rest.controller
 import com.github.danzx.xof.core.domain.Comment
 import com.github.danzx.xof.core.domain.Post
 import com.github.danzx.xof.core.domain.User
+import com.github.danzx.xof.core.domain.Vote
 import com.github.danzx.xof.core.filter.dsl.commentsWith
 import com.github.danzx.xof.core.filter.dsl.postsWith
 import com.github.danzx.xof.core.filter.dsl.userId
@@ -13,9 +14,11 @@ import com.github.danzx.xof.core.usecase.user.command.CreateNewUserCommand
 import com.github.danzx.xof.core.usecase.user.command.ReplaceUserCommand
 import com.github.danzx.xof.core.util.Page
 import com.github.danzx.xof.core.util.dsl.sortBy
+import com.github.danzx.xof.entrypoint.rest.controller.BaseRestController.Companion.BASE_PATH
 import com.github.danzx.xof.entrypoint.rest.request.CreateUserRequest
 import com.github.danzx.xof.entrypoint.rest.request.PaginationRequest
 import com.github.danzx.xof.entrypoint.rest.request.ReplaceUserRequest
+import com.github.danzx.xof.entrypoint.rest.request.VoteRequest
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toCreateNewUserCommand
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toPagination
 import com.github.danzx.xof.entrypoint.rest.request.mapper.toReplaceUserCommand
@@ -45,7 +48,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("$BASE_PATH//users")
 @Api(tags=["Users API"], description="User endpoints")
 class UserRestController : BaseRestController() {
 
@@ -70,8 +73,14 @@ class UserRestController : BaseRestController() {
     @Autowired @Qualifier("getCommentsUseCase")
     lateinit var getCommentsUseCase: UseCase<CommentsLoaderCommand, Page<Comment>>
 
+    @Autowired @Qualifier("voteOnPostUseCase")
+    lateinit var voteOnPostUseCase: UseCase<Vote, Unit>
+
+    @Autowired @Qualifier("voteOnCommentUseCase")
+    lateinit var voteOnCommentUseCase: UseCase<Vote, Unit>
+
     @GetMapping
-    @ApiOperation("Get user")
+    @ApiOperation("Get user by username")
     @ApiResponses(
         ApiResponse(code=200, message="OK - Found the user with the supplied username"),
         ApiResponse(code=400, message="Bad request - When the supplied username is blank"),
@@ -174,6 +183,40 @@ class UserRestController : BaseRestController() {
         useCaseExecutor(
             useCase = deleteUserByIdUseCase,
             command = id,
+            responseConverter = { ResponseEntities.NO_CONTENT }
+        )
+
+    @PutMapping("/{id}/posts/{postId}/votes")
+    @ApiOperation("Apply votes to posts")
+    @ApiResponses(
+        ApiResponse(code=204, message="No Content - Vote applied"),
+        ApiResponse(code=400, message="Bad request - The supplied payload is invalid or the supplied id is 0 or less"),
+        ApiResponse(code=404, message="Not Found - When either the user or the post where not found")
+    )
+    fun voteOnPost(
+        @PathVariable("id") @Min(1) userId: Long,
+        @PathVariable("postId") @Min(1) postId: Long,
+        @RequestBody @Valid request: VoteRequest) =
+        useCaseExecutor(
+            useCase = voteOnPostUseCase,
+            command = Vote(userId=userId, entityId=postId, direction=request.value!!),
+            responseConverter = { ResponseEntities.NO_CONTENT }
+        )
+
+    @PutMapping("/{id}/comments/{commentId}/votes")
+    @ApiOperation("Apply votes to comments")
+    @ApiResponses(
+        ApiResponse(code=204, message="No Content - Vote applied"),
+        ApiResponse(code=400, message="Bad request - The supplied payload is invalid or the supplied id is 0 or less"),
+        ApiResponse(code=404, message="Not Found - When either the user or the comment where not found")
+    )
+    fun voteOnComment(
+        @PathVariable("id") @Min(1) userId: Long,
+        @PathVariable("commentId") @Min(1) commentId: Long,
+        @RequestBody @Valid request: VoteRequest) =
+        useCaseExecutor(
+            useCase = voteOnCommentUseCase,
+            command = Vote(userId=userId, entityId=commentId, direction=request.value!!),
             responseConverter = { ResponseEntities.NO_CONTENT }
         )
 }
