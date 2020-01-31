@@ -27,7 +27,8 @@ abstract class SpringRestControllerTest {
     protected val servletUri: String
         get() {
             val request = mvc.perform(get("/")).andReturn().request
-            return "${request.scheme}://${request.serverName}"
+            val port = if (request.serverPort == 80) "" else ":${request.serverPort}"
+            return "${request.scheme}://${request.serverName}$port"
         }
 
     protected inline fun <reified T> String.parseAs() = jsonMapper.readValue<T>(this)
