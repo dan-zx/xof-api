@@ -12,13 +12,13 @@ import io.kotlintest.shouldBe
 import org.junit.jupiter.api.extension.ExtendWith
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 @ExtendWith(SpringExtension::class)
-@ActiveProfiles("test")
+@TestPropertySource(properties=["spring.main.banner-mode=off"])
 abstract class SpringRestControllerTest {
 
     @Autowired protected lateinit var mvc: MockMvc
