@@ -29,7 +29,7 @@ subprojects {
     }
 
     ext {
-        hibernateVersion = '5.4.10.Final'
+        h2Version = '1.4.200'
         jacksonVersion = '2.10.2'
         javaxInjectVersion = '1'
         junitVersion = '5.6.0'
@@ -38,7 +38,6 @@ subprojects {
         logbackVersion = '1.2.3'
         mockkVersion = '1.9.3'
         springBootVersion = '2.2.4.RELEASE'
-        springDataJpaVersion = '2.2.4.RELEASE'
         springfoxSwaggerVersion = '2.9.2'
         springMockkVersion = '1.1.3'
     }
