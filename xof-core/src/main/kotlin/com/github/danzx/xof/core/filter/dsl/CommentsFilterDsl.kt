@@ -1,11 +1,12 @@
 package com.github.danzx.xof.core.filter.dsl
 
 import com.github.danzx.xof.core.filter.CommentsFilter
+import com.github.danzx.xof.core.filter.NullableValue
 
 class CommentsFilterBuilder {
     private var userId: Long? = null
     private var postId: Long? = null
-    private var parentId: Long? = null
+    private var parentId: NullableValue<Long>? = null
 
     infix fun userId.eq(v: Long?) {
         userId = v
@@ -15,9 +16,8 @@ class CommentsFilterBuilder {
         postId = v
     }
 
-
     infix fun parentId.eq(v: Long?) {
-        parentId = v
+        parentId = NullableValue(v)
     }
 
     fun build() = CommentsFilter(userId, postId, parentId)

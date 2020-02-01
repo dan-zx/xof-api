@@ -14,7 +14,13 @@ object CommentJpaSpecifications {
         return Specification { root, _, cb -> cb.equal(root.get<String>("post").get<String>("id"), postId) }
     }
 
-    fun parentIdEquals(parentId: Long): Specification<CommentJpaEntity> {
+    fun parentIdEquals(parentId: Long?) = if (parentId != null) parentIdEquals(parentId) else parentIdEqualsNull()
+
+    private fun parentIdEquals(parentId: Long): Specification<CommentJpaEntity> {
         return Specification { root, _, cb -> cb.equal(root.get<String>("parentComment").get<String>("id"), parentId) }
+    }
+
+    private fun parentIdEqualsNull(): Specification<CommentJpaEntity> {
+        return Specification { root, _, _ -> root.get<String>("parentComment").get<String>("id").isNull }
     }
 }

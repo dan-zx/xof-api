@@ -16,4 +16,4 @@ private val CommentsFilter.postIdEqualsSpec
     get() = postId?.let { postIdEquals(it) }
 
 private val CommentsFilter.parentIdEqualsSpec
-    get() = parentId?.let { parentIdEquals(it) }
+    get() = parentId?.let { parentIdEquals(it.value) }
