@@ -100,7 +100,7 @@ class PostPersistenceAdapterTest : PersistenceAdapterBaseTest() {
     @Sql("classpath:test-user.sql",
          "classpath:test-post.sql",
          "classpath:test-post-vote.sql")
-    fun `should update return non null updated user`() {
+    fun `should update return non null updated post`() {
         val post = adapter.loadById(TEST_POST.id)
         post shouldNotBe null
 
@@ -109,7 +109,6 @@ class PostPersistenceAdapterTest : PersistenceAdapterBaseTest() {
             content = "My content"
             created = LocalDateTime.of(2020, 12, 8, 8, 10, 40)
             updated = LocalDateTime.of(2020, 12, 8, 8, 10, 40)
-            votes = 0
             user = SimpleUser(
                 id = TEST_USER.id,
                 username = TEST_USER.username
@@ -127,14 +126,14 @@ class PostPersistenceAdapterTest : PersistenceAdapterBaseTest() {
     @Sql("classpath:test-user.sql",
          "classpath:test-post.sql",
          "classpath:test-post-vote.sql")
-    fun `should remove by id delete post when user exists`() {
-        var user = adapter.loadById(TEST_POST.id)
-        user shouldNotBe null
+    fun `should remove by id delete post when post exists`() {
+        var post = adapter.loadById(TEST_POST.id)
+        post shouldNotBe null
 
         adapter.removeById(TEST_POST.id)
 
-        user = adapter.loadById(TEST_POST.id)
-        user shouldBe null
+        post = adapter.loadById(TEST_POST.id)
+        post shouldBe null
     }
 
     companion object {
