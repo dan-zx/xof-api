@@ -158,7 +158,7 @@ class CommentPersistenceAdapterTest : PersistenceAdapterBaseTest() {
                 arguments(commentsWith { userId eq TEST_COMMENT.user.id }, listOf(TEST_COMMENT)),
                 arguments(commentsWith { postId eq TEST_COMMENT.postId }, listOf(TEST_COMMENT)),
                 arguments(commentsWith { parentId eq null }, listOf(TEST_COMMENT)),
-                arguments(commentsWith { userId eq -100 }, emptyList<Comment>())
+                arguments(commentsWith { parentId eq 1 }, emptyList<Comment>())
             )
     }
 }
