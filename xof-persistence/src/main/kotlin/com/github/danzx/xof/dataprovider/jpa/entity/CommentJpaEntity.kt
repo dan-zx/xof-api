@@ -2,12 +2,13 @@ package com.github.danzx.xof.dataprovider.jpa.entity
 
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode.JOIN
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction.CASCADE
 
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.Objects
 
-import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType.LAZY
@@ -39,23 +40,25 @@ class CommentJpaEntity(
     var updated: LocalDateTime,
 
     @Fetch(JOIN)
-    @ManyToOne(optional=false, cascade=[ALL])
+    @ManyToOne(optional=false)
     @JoinColumn(name="user_id", nullable=false)
     var user: UserJpaEntity,
 
     @Fetch(JOIN)
-    @ManyToOne(optional=false, cascade=[ALL])
+    @ManyToOne(optional=false)
     @JoinColumn(name="post_id", nullable=false)
     var post: PostJpaEntity,
 
-    @ManyToOne(fetch=LAZY, cascade=[ALL])
+    @ManyToOne(fetch=LAZY)
     @JoinColumn(name="parent_comment_id")
     var parentComment: CommentJpaEntity? = null,
 
-    @OneToMany(mappedBy="parentComment", fetch=LAZY, cascade=[ALL], orphanRemoval=true)
+    @OnDelete(action=CASCADE)
+    @OneToMany(mappedBy="parentComment", fetch=LAZY)
     var replies: MutableSet<CommentJpaEntity> = HashSet(),
 
-    @OneToMany(mappedBy="comment", fetch=LAZY, cascade=[ALL], orphanRemoval=true)
+    @OnDelete(action=CASCADE)
+    @OneToMany(mappedBy="comment", fetch=LAZY)
     var votes: MutableSet<CommentVoteJpaEntity> = HashSet()) : Serializable {
 
     override fun equals(other: Any?): Boolean {

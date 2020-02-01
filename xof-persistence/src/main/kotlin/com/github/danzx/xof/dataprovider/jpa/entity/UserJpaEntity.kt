@@ -1,8 +1,10 @@
 package com.github.danzx.xof.dataprovider.jpa.entity
 
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction.CASCADE
+
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType.LAZY
@@ -36,16 +38,20 @@ class UserJpaEntity(
     @Column(name="join_date", nullable=false)
     var join: LocalDateTime,
 
-    @OneToMany(mappedBy="user", fetch=LAZY, cascade=[ALL], orphanRemoval=true)
+    @OnDelete(action=CASCADE)
+    @OneToMany(mappedBy="user", fetch=LAZY)
     var posts: MutableSet<PostJpaEntity> = HashSet(),
 
-    @OneToMany(mappedBy="user", fetch=LAZY, cascade=[ALL], orphanRemoval=true)
+    @OnDelete(action=CASCADE)
+    @OneToMany(mappedBy="user", fetch=LAZY)
     var votedPosts: MutableSet<PostVoteJpaEntity> = HashSet(),
 
-    @OneToMany(mappedBy="user", fetch=LAZY, cascade=[ALL], orphanRemoval=true)
+    @OnDelete(action=CASCADE)
+    @OneToMany(mappedBy="user", fetch=LAZY)
     var comments: MutableSet<CommentJpaEntity> = HashSet(),
 
-    @OneToMany(mappedBy="user", fetch=LAZY, cascade=[ALL], orphanRemoval=true)
+    @OnDelete(action=CASCADE)
+    @OneToMany(mappedBy="user", fetch=LAZY)
     var votedComments: MutableSet<CommentJpaEntity> = HashSet()) : Serializable {
 
     override fun equals(other: Any?): Boolean {
