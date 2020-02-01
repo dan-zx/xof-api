@@ -3,7 +3,10 @@ package com.github.danzx.xof.entrypoint.rest.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 
+import com.github.danzx.xof.core.usecase.UseCaseExecutor
 import com.github.danzx.xof.entrypoint.rest.response.ErrorResponse
+
+import com.ninjasquad.springmockk.SpykBean
 
 import io.kotlintest.matchers.date.beInToday
 import io.kotlintest.should
@@ -21,8 +24,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 @TestPropertySource(properties=["spring.main.banner-mode=off"])
 abstract class SpringRestControllerTest {
 
+    object TestUseCaseExecutor : UseCaseExecutor
+
     @Autowired protected lateinit var mvc: MockMvc
     @Autowired protected lateinit var jsonMapper: ObjectMapper
+    @SpykBean  protected lateinit var useCaseExecutor: TestUseCaseExecutor
 
     protected val servletUri: String
         get() {
