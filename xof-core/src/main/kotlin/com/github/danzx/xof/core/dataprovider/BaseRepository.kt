@@ -25,5 +25,5 @@ interface DataUpdater<T> {
 }
 
 interface PaginatedDataLoader<F, T> {
-    fun loadPaginated(filter: F, pagination: Pagination = Pagination(), sorting: List<SortSpec> = emptyList()) : Page<T>
+    fun loadPaginated(filter: F, pagination: Pagination = Pagination.DEFAULT, sorting: List<SortSpec> = emptyList()) : Page<T>
 }

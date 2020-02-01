@@ -10,5 +10,7 @@ data class Pagination(
     companion object {
         const val DEFAULT_PAGE_SIZE = 10
         const val DEFAULT_PAGE_NUMBER = 1
+
+        @JvmStatic val DEFAULT = Pagination()
     }
 }

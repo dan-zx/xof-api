@@ -1,0 +1,1 @@
+INSERT INTO comment (comment_id, content, created_date, parent_comment_id, post_id, updated_date, user_id) VALUES (102, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2019-12-06 12:00:00', null, 85, '2019-12-06 12:00:00', 56)

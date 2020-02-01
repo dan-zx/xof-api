@@ -92,7 +92,7 @@ class UserPersistenceAdapterTest : PersistenceAdapterBaseTest() {
     }
 
     @Test
-    fun `should exists by username return false user when user does not exist`() {
+    fun `should exists by username return false when user does not exist`() {
         adapter.existsUsername(TEST_USER.username) shouldBe false
     }
 

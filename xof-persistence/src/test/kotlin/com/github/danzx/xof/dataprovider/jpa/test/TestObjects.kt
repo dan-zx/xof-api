@@ -22,7 +22,7 @@ val TEST_POST = Post(
     content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     created = LocalDateTime.of(2019, 12, 6, 12, 0, 0),
     updated = LocalDateTime.of(2019, 12, 6, 12, 0, 0),
-    votes = 5,
+    votes = 1,
     user = SimpleUser(
         id = TEST_USER.id,
         username = TEST_USER.username
@@ -39,6 +39,6 @@ val TEST_COMMENT = Comment(
         username = TEST_USER.username
     ),
     postId = TEST_POST.id,
-    parentId = 3,
-    votes = -2
+    parentId = null,
+    votes = -1
 )
