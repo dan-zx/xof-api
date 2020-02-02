@@ -10,7 +10,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @TestPropertySource(properties=[
     "spring.main.banner-mode=off",
-    "spring.jpa.properties.hibernate.format_sql=true",
-    "spring.jpa.properties.hibernate.show_sql=true"
+    "spring.jpa.hibernate.ddl-auto=create",
+    "spring.jpa.show-sql=true",
+    "spring.jpa.properties.hibernate.format_sql=true"
 ])
 abstract class PersistenceAdapterBaseTest
