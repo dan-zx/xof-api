@@ -35,8 +35,10 @@ class PostPersistenceAdapter : PostPersister, PaginatedPostsLoader, PostByIdLoad
     override fun save(post: Post): Post {
         var postJpaEntity = post.toPostJpaEntity()
         postJpaEntity = postJpaRepository.save(postJpaEntity)
-        post.id = postJpaEntity.id!!
-        return post
+        return post.apply {
+            id = postJpaEntity.id!!
+            user.username = postJpaEntity.user.username
+        }
     }
 
     override fun loadPaginated(filter: PostsFilter, pagination: Pagination, sorting: List<SortSpec>) =

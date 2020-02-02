@@ -37,8 +37,10 @@ class CommentPersistenceAdapter : CommentPersister, PaginatedCommentsLoader, Com
     override fun save(comment: Comment): Comment {
         var commentJpaEntity = comment.toCommentJpaEntity()
         commentJpaEntity = commentJpaRepository.save(commentJpaEntity)
-        comment.id = commentJpaEntity.id!!
-        return comment
+        return comment.apply {
+            id = commentJpaEntity.id!!
+            user.username = commentJpaEntity.user.username
+        }
     }
 
     override fun loadPaginated(filter: CommentsFilter, pagination: Pagination, sorting: List<SortSpec>) =
