@@ -5,6 +5,8 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
+ext.jacocoExcludes = ['**/app/**/*']
+
 bootJar {
     manifest {
         archiveVersion = ''

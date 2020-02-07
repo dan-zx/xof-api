@@ -1,3 +1,8 @@
+ext.jacocoExcludes = [
+    '**/request/*',
+    '**/response/*',
+    '**/mapper/*']
+
 dependencies {
     api project(':xof-core')
     api "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"

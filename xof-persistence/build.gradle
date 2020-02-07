@@ -1,3 +1,9 @@
+ext.jacocoExcludes = [
+    '**/entity/*',
+    '**/view/*',
+    '**/mapper/*',
+    '**/TransactionalUseCaseExecutor*']
+
 dependencies {
     api project(':xof-core')
     api "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
