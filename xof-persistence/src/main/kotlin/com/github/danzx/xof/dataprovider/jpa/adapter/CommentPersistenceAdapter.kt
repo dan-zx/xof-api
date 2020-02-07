@@ -61,7 +61,7 @@ class CommentPersistenceAdapter : CommentPersister, PaginatedCommentsLoader, Com
     private fun Comment.toCommentJpaEntity(): CommentJpaEntity {
         val post = postJpaRepository.findByIdOrNull(this.postId)!!
         val user = userJpaRepository.findByIdOrNull(this.user.id)!!
-        val parentComment = parentId?.let { commentJpaRepository.findByIdOrNull(it) }
+        val parentComment = parentId?.let { commentJpaRepository.findByIdOrNull(it)!! }
         return this.toCommentJpaEntity(post, user, parentComment)
     }
 }
