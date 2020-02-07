@@ -1,0 +1,97 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.3.50'
+        kotlinGeneratedVersion = '1.4.0'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion"
+        classpath "nl.fabianm.kotlin.plugin.generated:plugin-gradle:$kotlinGeneratedVersion"
+    }
+}
+
+subprojects {
+    apply plugin: 'jacoco'
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-jpa'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'nl.fabianm.kotlin.plugin.generated'
+
+    group 'com.github.danzx.xof'
+    version '1.0'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+
+    ext {
+        h2Version = '1.4.200'
+        jacksonVersion = '2.10.2'
+        javaxInjectVersion = '1'
+        junitVersion = '5.6.0'
+        kotlinTestVersion = '3.4.2'
+        kxdateVersion = '1.0.0'
+        logbackVersion = '1.2.3'
+        mockkVersion = '1.9.3'
+        springBootVersion = '2.2.4.RELEASE'
+        springfoxSwaggerVersion = '2.9.2'
+        springMockkVersion = '1.1.3'
+    }
+
+    dependencies {
+        api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        api "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+        testImplementation "ch.qos.logback:logback-classic:$logbackVersion"
+        testImplementation "com.github.yongjhih.kxdate:kxdate:$kxdateVersion"
+        testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlinTestVersion"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+        testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+        testImplementation "io.mockk:mockk:$mockkVersion"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    }
+
+    compileKotlin {
+        kotlinOptions.freeCompilerArgs = ['-Xjsr305=strict', "-Xinline-classes"]
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    compileTestKotlin {
+        kotlinOptions.freeCompilerArgs = ['-Xjsr305=strict']
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+
+        afterEvaluate {
+            classDirectories.from = files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: jacocoExcludes)
+            })
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = '5.6.2'
+}

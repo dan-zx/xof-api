@@ -1,0 +1,17 @@
+ext.jacocoExcludes = [
+    '**/request/*',
+    '**/response/*',
+    '**/mapper/*']
+
+dependencies {
+    api project(':xof-core')
+    api "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+    api "io.springfox:springfox-swagger2:$springfoxSwaggerVersion"
+    api "io.springfox:springfox-bean-validators:$springfoxSwaggerVersion"
+    api "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
+
+    api "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+
+    testImplementation "com.ninja-squad:springmockk:$springMockkVersion"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+}

@@ -1,0 +1,6 @@
+rootProject.name = 'xof-api'
+
+include 'xof-core'
+include 'xof-persistence'
+include 'xof-rest-api'
+include 'xof-app'

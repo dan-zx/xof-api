@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%highlight(%-5level) in %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="io.kotlintest" level="warn" />
+    <logger name="io.mockk" level="warn" />
+    <logger name="javax.management" level="warn" />
+    <logger name="org.apache" level="warn" />
+    <logger name="org.hibernate" level="warn" />
+    <logger name="org.hibernate.type.descriptor.sql" level="trace" />
+    <logger name="org.junit" level="warn" />
+    <logger name="org.springframework" level="warn" />
+    <logger name="org.springframework.jdbc.datasource.init.ScriptUtils" level="trace" />
+
+    <root level="all">
+        <appender-ref ref="console" />
+    </root>
+</configuration>

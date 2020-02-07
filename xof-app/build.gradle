@@ -1,0 +1,25 @@
+plugins {
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'org.jetbrains.kotlin.kapt'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+ext.jacocoExcludes = ['**/app/**/*']
+
+bootJar {
+    manifest {
+        archiveVersion = ''
+        attributes 'Start-Class': 'com.github.danzx.xof.app.XofApplication'
+    }
+}
+
+dependencies {
+    implementation project(':xof-core')
+    implementation project(':xof-persistence')
+    implementation project(':xof-rest-api')
+
+    runtime 'com.h2database:h2'
+
+    kapt 'org.springframework.boot:spring-boot-configuration-processor'
+}
