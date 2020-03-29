@@ -15,7 +15,7 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity(name="User")
-@Table(name="user")
+@Table(name="xof_user")
 class UserJpaEntity(
 
     @Id
