@@ -1,4 +1,4 @@
-# XOF API v1.0
+# XOF API v1.1
 
 [![Coverage](https://codecov.io/gh/dan-zx/xof-api/branch/master/graph/badge.svg)](https://codecov.io/gh/dan-zx/xof-api)
 [![Build Status](https://api.travis-ci.com/dan-zx/xof-api.svg?branch=master)](https://travis-ci.com/dan-zx/xof-api)
@@ -24,7 +24,7 @@ Modules
 Prerequisites
 -------------
 
-  * JDK - v1.8+
+  * JDK11+
 
 Build the project
 -----------------
