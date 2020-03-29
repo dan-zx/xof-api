@@ -1,4 +1,4 @@
-# XOF API v1.1-SNAPSHOT
+# XOF API v1.1
 
 [![Coverage](https://codecov.io/gh/dan-zx/xof-api/branch/develop/graph/badge.svg)](https://codecov.io/gh/dan-zx/xof-api)
 [![Build Status](https://api.travis-ci.com/dan-zx/xof-api.svg?branch=develop)](https://travis-ci.com/dan-zx/xof-api)
