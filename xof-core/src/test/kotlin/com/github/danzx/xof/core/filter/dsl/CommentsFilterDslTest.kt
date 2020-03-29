@@ -2,7 +2,6 @@ package com.github.danzx.xof.core.filter.dsl
 
 import com.github.danzx.xof.core.filter.CommentsFilter
 import com.github.danzx.xof.core.filter.NullableValue
-import com.github.danzx.xof.core.filter.PostsFilter
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
@@ -15,16 +14,6 @@ class CommentsFilterDslTest : StringSpec({
             userId eq expected.userId
             postId eq expected.postId
             parentId eq expected.parentId?.value
-        }
-
-        actual shouldBe expected
-    }
-
-    "postsWith DSL should build PostsFilter object" {
-        val expected = PostsFilter(userId = 1, titleQuery = "tle")
-        val actual = postsWith {
-            userId eq expected.userId
-            title containing expected.titleQuery
         }
 
         actual shouldBe expected
