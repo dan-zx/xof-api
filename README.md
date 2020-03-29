@@ -24,7 +24,7 @@ Modules
 Prerequisites
 -------------
 
-  * JDK - v1.8+
+  * JDK11+
 
 Build the project
 -----------------
