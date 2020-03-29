@@ -43,6 +43,7 @@ subprojects {
         kxdateVersion = '1.0.0'
         logbackVersion = '1.2.3'
         mockkVersion = '1.9.3'
+        postgresVersion = '42.2.11'
         springBootVersion = '2.2.4.RELEASE'
         springfoxSwaggerVersion = '2.9.2'
         springMockkVersion = '1.1.3'

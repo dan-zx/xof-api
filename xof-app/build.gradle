@@ -20,6 +20,7 @@ dependencies {
     implementation project(':xof-rest-api')
 
     runtime 'com.h2database:h2'
+    runtime "org.postgresql:postgresql:$postgresVersion"
 
     kapt 'org.springframework.boot:spring-boot-configuration-processor'
 }
