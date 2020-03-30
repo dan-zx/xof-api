@@ -1,4 +1,6 @@
-package com.github.danzx.xof.app
+package com.github.danzx.xof.app.configuration
+
+import com.github.danzx.xof.app.configuration.properties.SwaggerProperties
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -15,27 +17,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @Configuration
 @EnableSwagger2
-@EnableConfigurationProperties(XofProperties::class)
-@ConditionalOnProperty(
-    prefix = "xof.swagger",
-    name = ["enabled"],
-    havingValue = "true",
-    matchIfMissing = true
-)
-class SwaggerConfiguration(private val properties: XofProperties) : WebMvcConfigurer {
+@EnableConfigurationProperties(SwaggerProperties::class)
+@ConditionalOnProperty(prefix = "swagger", name = ["enabled"], havingValue = "true", matchIfMissing = true)
+class SwaggerConfiguration(private val properties: SwaggerProperties) : WebMvcConfigurer {
 
     @Bean
-    fun api() = Docket(DocumentationType.SWAGGER_2)
-        .apiInfo(swaggerMetaData())
-        .host(properties.url)
-        .select()
-        .apis(RequestHandlerSelectors.basePackage("com.github.danzx.xof.entrypoint.rest.controller"))
-        .build()!!
+    fun api() =
+        Docket(DocumentationType.SWAGGER_2)
+            .apiInfo(swaggerMetaData())
+            .host(properties.host)
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.github.danzx.xof.entrypoint.rest.controller"))
+            .build()!!
 
-    private fun swaggerMetaData() = ApiInfoBuilder()
-        .title(properties.swagger.title)
-        .version(properties.swagger.version)
-        .build()!!
+    private fun swaggerMetaData() =
+        ApiInfoBuilder()
+            .title(properties.title)
+            .version(properties.version)
+            .build()!!
 
     override fun addViewControllers(registry: ViewControllerRegistry) {
         registry.addViewController("/").setViewName("redirect:/swagger-ui.html")

@@ -1,4 +1,4 @@
-# XOF API v1.1
+# XOF API v1.2
 
 [![Coverage](https://codecov.io/gh/dan-zx/xof-api/branch/master/graph/badge.svg)](https://codecov.io/gh/dan-zx/xof-api)
 [![Build Status](https://api.travis-ci.com/dan-zx/xof-api.svg?branch=master)](https://travis-ci.com/dan-zx/xof-api)
@@ -40,7 +40,7 @@ Start endpoints
 $ ./gradlew :xof-app:bootRun
 ```
 
-Swagger docs should be at [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+Swagger docs should be at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 
 License

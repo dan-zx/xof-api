@@ -10,7 +10,7 @@ ext.jacocoExcludes = ['**/app/**/*']
 bootJar {
     manifest {
         archiveVersion = ''
-        attributes 'Start-Class': 'com.github.danzx.xof.app.XofApplication'
+        attributes 'Start-Class': 'com.github.danzx.xof.app.XofApplicationKt'
     }
 }
 
@@ -18,8 +18,10 @@ dependencies {
     implementation project(':xof-core')
     implementation project(':xof-persistence')
     implementation project(':xof-rest-api')
+    implementation 'org.liquibase:liquibase-core'
 
     runtime 'com.h2database:h2'
+    runtime "org.postgresql:postgresql:$postgresVersion"
 
     kapt 'org.springframework.boot:spring-boot-configuration-processor'
 }

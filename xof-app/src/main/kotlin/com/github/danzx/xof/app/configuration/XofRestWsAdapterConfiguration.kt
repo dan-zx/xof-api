@@ -1,28 +1,11 @@
-package com.github.danzx.xof.app
+package com.github.danzx.xof.app.configuration
 
-import com.github.danzx.xof.core.usecase.UseCase
-
-import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.FilterType
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-
-@Configuration
-@ComponentScan(
-    "com.github.danzx.xof.core.usecase",
-    includeFilters = [ComponentScan.Filter(UseCase::class, type = FilterType.ASSIGNABLE_TYPE)])
-class XofCoreConfiguration
-
-@Configuration
-@ComponentScan("com.github.danzx.xof.dataprovider.jpa.adapter")
-@EntityScan("com.github.danzx.xof.dataprovider.jpa.entity")
-@EnableJpaRepositories("com.github.danzx.xof.dataprovider.jpa.repository")
-class XofPersistenceAdapterConfiguration
 
 @Configuration
 @ComponentScan(
