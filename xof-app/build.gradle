@@ -10,7 +10,7 @@ ext.jacocoExcludes = ['**/app/**/*']
 bootJar {
     manifest {
         archiveVersion = ''
-        attributes 'Start-Class': 'com.github.danzx.xof.app.XofApplication'
+        attributes 'Start-Class': 'com.github.danzx.xof.app.XofApplicationKt'
     }
 }
 
