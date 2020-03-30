@@ -91,6 +91,12 @@ subprojects {
             })
         }
     }
+
+    task stage {
+        dependsOn 'clean'
+        dependsOn 'assemble'
+        tasks.findByName('assemble').mustRunAfter 'clean'
+    }
 }
 
 wrapper {
