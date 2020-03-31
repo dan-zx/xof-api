@@ -1,7 +1,7 @@
-# XOF API v1.2-SNAPSHOT
+# XOF API v1.2.1
 
-[![Coverage](https://codecov.io/gh/dan-zx/xof-api/branch/develop/graph/badge.svg)](https://codecov.io/gh/dan-zx/xof-api)
-[![Build Status](https://api.travis-ci.com/dan-zx/xof-api.svg?branch=develop)](https://travis-ci.com/dan-zx/xof-api)
+[![Coverage](https://codecov.io/gh/dan-zx/xof-api/branch/master/graph/badge.svg)](https://codecov.io/gh/dan-zx/xof-api)
+[![Build Status](https://api.travis-ci.com/dan-zx/xof-api.svg?branch=master)](https://travis-ci.com/dan-zx/xof-api)
 [![License](https://img.shields.io/badge/licence-Apache_Licence_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 A Blog application API created following the clean architecture and clean code
@@ -40,7 +40,7 @@ Start endpoints
 $ ./gradlew :xof-app:bootRun
 ```
 
-Swagger docs should be at [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+Swagger docs should be at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 
 License
