@@ -10,7 +10,7 @@ fun Post.toPostJpaEntity(user: UserJpaEntity) = PostJpaEntity(
     title = title,
     content = content,
     created = created,
-    updated = created,
+    updated = updated,
     user = user
 )
 
